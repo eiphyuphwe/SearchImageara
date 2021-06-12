@@ -1,11 +1,11 @@
 package com.example.searchimageara.network
 
-import com.example.searchimageara.network.responses.ImageSearchResponse
+import com.example.searchimageara.network.responses.SearchImageResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface ImageSearchService {
+interface SearchImageService {
     @GET("ImageSearchAPI")
     suspend fun searchImages(
         @Header("x-rapidapi-key") apiKey:String,
@@ -14,5 +14,5 @@ interface ImageSearchService {
         @Query("pageNumber") pageNumber:Int,
         @Query("pageSize") pageSize:Int,
         @Query("autoCorrect") autoCorrect:Boolean
-    ) : ImageSearchResponse
+    ) : SearchImageResponse
 }
