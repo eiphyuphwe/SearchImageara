@@ -1,5 +1,8 @@
 package com.example.searchimageara.reposistory
 
+import com.example.searchimageara.database.entity.DatabaseService
+import com.example.searchimageara.database.entity.ImageDataEntity
+import com.example.searchimageara.database.entity.ImageDataEntityMapper
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.NetworkConstants
@@ -12,8 +15,11 @@ class SerachImageReposistory_Impl
 @Inject
 constructor(
     private val imageService: SearchImageService,
-    private val mapper: ImageDataDtoMapper
+    private val networkMapper: ImageDataDtoMapper,
+    private val databaseService: DatabaseService,
+    private val dbMapper : ImageDataEntityMapper
 ) : SearchImageReposistory {
+
     override suspend fun search(
         query: String,
         pageNumber: Int,
@@ -28,7 +34,19 @@ constructor(
             pageSize,
             autoCorrect
         )
-        return response.let { mapper.toDomainList(it.imageList) }
+        return response.let { networkMapper.toDomainList(it.imageList) }
+    }
+
+    override suspend fun insertAll(imageDataEntityList: List<ImageData>) {
+        val dataModelList = dbMapper.fromDomainList(imageDataEntityList)
+        dataModelList.forEach {
+            databaseService.imageDao().insertImageData(it)
+        }
+
+    }
+
+    override suspend fun selectAll(): List<ImageData> {
+       return dbMapper.toDomainList(databaseService.imageDao().selectAll())
     }
 
 }

@@ -25,6 +25,13 @@ class SearchImageListViewModel
                 autoCorrect = autoCorrect
             )
             imageDataLists?.value = result
+            searchImageReposistory.insertAll(result)
+            val dbresult = searchImageReposistory.selectAll()
+            dbresult.forEach {
+                print("db"+it.toString())
+            }
+
+
         }
     }
     fun getSearchResults() : LiveData<List<ImageData>> {

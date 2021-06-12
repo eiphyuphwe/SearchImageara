@@ -11,10 +11,13 @@ interface ImageDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertImageData(imageDataEntity: ImageDataEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg  images:ImageDataEntity)
+  /*  @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(vararg images: List<ImageDataEntity>)*/
 
     @Query("SELECT * FROM image WHERE image_websearch_url LIKE :q")
     suspend fun selectImagesByImageWebSearchUrl(q:String) : List<ImageDataEntity>
+
+    @Query("SELECT * FROM image ")
+    suspend fun selectAll() : List<ImageDataEntity>
 
 }
