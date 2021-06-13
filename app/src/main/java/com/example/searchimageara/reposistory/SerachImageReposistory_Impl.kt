@@ -49,4 +49,10 @@ constructor(
        return dbMapper.toDomainList(databaseService.imageDao().selectAll())
     }
 
+    override suspend fun selectByImageWebSearchUrl(url: String?): List<ImageData> {
+       return dbMapper.toDomainList(databaseService.imageDao().selectImagesByImageWebSearchUrl(url))
+    }
+
+
+
 }

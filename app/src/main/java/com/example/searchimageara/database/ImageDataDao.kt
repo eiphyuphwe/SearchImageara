@@ -15,7 +15,7 @@ interface ImageDataDao {
     suspend fun insertAll(vararg images: List<ImageDataEntity>)*/
 
     @Query("SELECT * FROM image WHERE image_websearch_url LIKE :q")
-    suspend fun selectImagesByImageWebSearchUrl(q:String) : List<ImageDataEntity>
+    suspend fun selectImagesByImageWebSearchUrl(q:String?) : List<ImageDataEntity>
 
     @Query("SELECT * FROM image ")
     suspend fun selectAll() : List<ImageDataEntity>

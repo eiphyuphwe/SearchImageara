@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel.search("cat",1,5,true);
+        viewModel.search("dogs",1,5,true);
         viewModel.getSearchResults().observe(this, Observer {
 
             val result = it
