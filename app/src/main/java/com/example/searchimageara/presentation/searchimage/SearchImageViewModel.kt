@@ -1,4 +1,4 @@
-package com.example.searchimageara.presentation.searchImageList
+package com.example.searchimageara.presentation.searchimage
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
@@ -10,7 +10,7 @@ import com.example.searchimageara.reposistory.SearchImageReposistory
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class SearchImageListViewModel
+class SearchImageViewModel
 @ViewModelInject
 constructor(
     private val searchImageReposistory: SearchImageReposistory
@@ -20,6 +20,11 @@ constructor(
 
     fun search(q: String, page: Int, pageSize: Int, autoCorrect: Boolean) {
         viewModelScope.launch {
+            /*
+               1. load data from db by search
+                   if data is already in db
+
+            * */
             val result = searchImageReposistory.search(
                 query = q,
                 page = page,

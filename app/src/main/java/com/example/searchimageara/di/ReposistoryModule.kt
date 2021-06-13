@@ -1,7 +1,6 @@
 package com.example.searchimageara.di
 
 import com.example.searchimageara.database.entity.DatabaseService
-import com.example.searchimageara.database.entity.ImageDataEntityMapper
 import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper
 import com.example.searchimageara.reposistory.SearchImageReposistory
@@ -18,7 +17,7 @@ object ReposistoryModule {
 
     @Provides
     fun provideSearchImageRepository(service:SearchImageService,mapper:ImageDataDtoMapper,
-    dbService:DatabaseService,dbMapper:ImageDataEntityMapper) : SearchImageReposistory {
-        return SerachImageReposistory_Impl(service,mapper,dbService,dbMapper)
+    dbService:DatabaseService) : SearchImageReposistory {
+        return SerachImageReposistory_Impl(service,mapper,dbService)
     }
 }

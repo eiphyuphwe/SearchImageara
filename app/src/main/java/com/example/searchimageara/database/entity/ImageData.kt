@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.searchimageara.domain.model.Provider
-
+/*
 @Entity(tableName = "image")
-data class ImageDataEntity(
+data class ImageData(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "url")
     val url: String? = null,
@@ -32,6 +32,4 @@ data class ImageDataEntity(
     val imageWebSearchUrl: String? = null,
     @ColumnInfo(name = "webpage_url")
     val webpageUrl: String? = null
-) {
-
-}
+)*/

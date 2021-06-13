@@ -1,8 +1,6 @@
 package com.example.searchimageara.reposistory
 
 import com.example.searchimageara.database.entity.DatabaseService
-import com.example.searchimageara.database.entity.ImageDataEntity
-import com.example.searchimageara.database.entity.ImageDataEntityMapper
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.NetworkConstants
@@ -17,7 +15,6 @@ constructor(
     private val imageService: SearchImageService,
     private val networkMapper: ImageDataDtoMapper,
     private val databaseService: DatabaseService,
-    private val dbMapper : ImageDataEntityMapper
 ) : SearchImageReposistory {
 
     override suspend fun search(
@@ -25,7 +22,7 @@ constructor(
         pageNumber: Int,
         pageSize: Int,
         autoCorrect: Boolean
-    ): List<ImageData> {
+    ): List<com.example.searchimageara.domain.model.ImageData> {
         val response = imageService.searchImages(
             NetworkConstants.API_VALUE,
             NetworkConstants.API_HOST_VALUE,
@@ -38,19 +35,21 @@ constructor(
     }
 
     override suspend fun insertAll(imageDataEntityList: List<ImageData>) {
-        val dataModelList = dbMapper.fromDomainList(imageDataEntityList)
-        dataModelList.forEach {
+       // val dataModelList = dbMapper.fromDomainList(imageDataEntityList)
+        imageDataEntityList.forEach {
             databaseService.imageDao().insertImageData(it)
         }
 
     }
 
     override suspend fun selectAll(): List<ImageData> {
-       return dbMapper.toDomainList(databaseService.imageDao().selectAll())
+       //return dbMapper.toDomainList(databaseService.imageDao().selectAll())
+        return databaseService.imageDao().selectAll()
     }
 
     override suspend fun selectByImageWebSearchUrl(url: String?): List<ImageData> {
-       return dbMapper.toDomainList(databaseService.imageDao().selectImagesByImageWebSearchUrl(url))
+       //return dbMapper.toDomainList(databaseService.imageDao().selectImagesByImageWebSearchUrl(url))
+        return databaseService.imageDao().selectImagesByImageWebSearchUrl(url)
     }
 
 

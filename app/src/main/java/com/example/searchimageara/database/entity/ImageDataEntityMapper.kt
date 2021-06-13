@@ -2,14 +2,13 @@ package com.example.searchimageara.database.entity
 
 
 import com.example.searchimageara.domain.model.ImageData
-import com.example.searchimageara.domain.model.Provider
 import com.example.searchimageara.domain.utility.DomainMapper
-import com.example.searchimageara.network.model.ImageDataDto
+/*
 
-class ImageDataEntityMapper : DomainMapper<ImageDataEntity, ImageData> {
+class ImageDataEntityMapper : DomainMapper<com.example.searchimageara.database.entity.ImageData, ImageData> {
 
 
-    override fun mapToDomainModel(model: ImageDataEntity): ImageData {
+    override fun mapToDomainModel(model: com.example.searchimageara.database.entity.ImageData): ImageData {
 
         return ImageData(
             url = model.url,
@@ -28,8 +27,8 @@ class ImageDataEntityMapper : DomainMapper<ImageDataEntity, ImageData> {
         )
     }
 
-    override fun mapFromDomainModel(domainModel: ImageData): ImageDataEntity {
-        return ImageDataEntity(
+    override fun mapFromDomainModel(domainModel: ImageData): com.example.searchimageara.database.entity.ImageData {
+        return com.example.searchimageara.database.entity.ImageData(
             id = 0,
             url = domainModel.url,
             height = domainModel.height,
@@ -46,12 +45,12 @@ class ImageDataEntityMapper : DomainMapper<ImageDataEntity, ImageData> {
         )
     }
 
-    fun toDomainList(initial: List<ImageDataEntity>): List<ImageData> {
+    fun toDomainList(initial: List<com.example.searchimageara.database.entity.ImageData>): List<ImageData> {
         return initial.map { mapToDomainModel(it) }
     }
 
-    fun fromDomainList(initial: List<ImageData>): List<ImageDataEntity> {
+    fun fromDomainList(initial: List<ImageData>): List<com.example.searchimageara.database.entity.ImageData> {
         return initial.map { mapFromDomainModel(it) }
     }
 
-}
+}*/

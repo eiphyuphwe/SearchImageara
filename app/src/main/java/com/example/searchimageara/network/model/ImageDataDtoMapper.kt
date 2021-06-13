@@ -10,6 +10,7 @@ class ImageDataDtoMapper : DomainMapper<ImageDataDto, ImageData> {
     override fun mapToDomainModel(model: ImageDataDto): ImageData {
 
         return ImageData(
+            id = 0,
             url = model.url,
             height = model.height,
             width = model.width,

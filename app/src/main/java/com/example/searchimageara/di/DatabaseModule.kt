@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.example.searchimageara.database.entity.DatabaseService
 import com.example.searchimageara.database.entity.ImageDataDao
-import com.example.searchimageara.database.entity.ImageDataEntityMapper
 import com.example.searchimageara.network.model.ImageDataDtoMapper
 import dagger.Module
 import dagger.Provides
@@ -33,9 +32,9 @@ object DatabaseModule {
         ).build()
     }
 
-    @Singleton
+    /*@Singleton
     @Provides
     fun provideImageDataDtoMapper() : ImageDataEntityMapper {
         return ImageDataEntityMapper()
-    }
+    }*/
 }

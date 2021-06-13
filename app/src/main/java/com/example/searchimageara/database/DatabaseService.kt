@@ -2,12 +2,12 @@ package com.example.searchimageara.database.entity
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import com.example.searchimageara.domain.model.ImageData
 import javax.inject.Singleton
 
 @Singleton
-@Database(entities = [ImageDataEntity::class],
+@Database(entities = [ImageData::class],
     exportSchema = false,
     version = 1
     )
