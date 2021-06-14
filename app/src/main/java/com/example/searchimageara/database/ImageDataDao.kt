@@ -25,4 +25,7 @@ interface ImageDataDao {
     @Query("SELECT * FROM image_data WHERE `query` LIKE :q")
     fun selectAll(q:String?) : PagingSource<Int,ImageData>
 
+    @Query("SELECT * FROM image_data WHERE `query` LIKE :q")
+    suspend fun selectAllByQuery(q:String?) : List<ImageData>
+
 }

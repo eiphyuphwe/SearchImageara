@@ -34,6 +34,7 @@
 
 package com.example.searchimageara.reposistory
 
+import android.util.Log
 import androidx.paging.*
 import androidx.room.withTransaction
 import com.example.searchimageara.database.entity.DatabaseService
@@ -57,6 +58,9 @@ class SearchImageRemoteMediator @Inject constructor(
     private val autoCorrect: Boolean
 
 ) : RemoteMediator<Int, ImageData>() {
+    var  totalCount =0
+    var maxPageNumber =0
+    var pageCount =0;
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ImageData>
@@ -72,26 +76,39 @@ class SearchImageRemoteMediator @Inject constructor(
                 }
             }
 
-            val response = networkService.searchImages(
-                NetworkConstants.API_VALUE,
-                NetworkConstants.API_HOST_VALUE,
-                query,
-                pageNumber,
-                pageSize,
-                autoCorrect
-            )
-            val totalCount = response?.count
-            val imageDataDto = response?.imageList
-            val imageDataList = networkMapper.toDomainList(imageDataDto,query)
-            if (imageDataList != null) {
-                databaseService.withTransaction {
-                    databaseService.imageDataKeysDao()
-                        .saveImageDataKeys(ImageDataKeys(0, pageNumber++, pageSize, totalCount))
 
-                    databaseService.imageDao().saveAllImageData(imageDataList)
+            var response = databaseService.imageDao().selectAllByQuery(query)
+
+            if(response.size <= 0 || maxPageNumber > pageCount) {
+
+                val networkResponse = networkService.searchImages(
+                    NetworkConstants.API_VALUE,
+                    NetworkConstants.API_HOST_VALUE,
+                    query,
+                    pageNumber,
+                    pageSize,
+                    autoCorrect
+                )
+
+                totalCount = networkResponse?.count
+                Log.e("TotalCount","$totalCount")
+                val imageDataDto = networkResponse?.imageList
+                val imageDataList = networkMapper.toDomainList(imageDataDto, query)
+                if (imageDataList != null) {
+                    databaseService.withTransaction {
+                        databaseService.imageDataKeysDao()
+                            .saveImageDataKeys(ImageDataKeys(0, pageNumber++, pageSize, totalCount))
+
+                        databaseService.imageDao().saveAllImageData(imageDataList)
+                        pageCount = pageNumber
+                    }
                 }
+            }else{
+                totalCount = response.size
             }
-            val maxPageNumber = totalCount / pageSize + 1
+            maxPageNumber = totalCount / pageSize + 1
+
+            Log.e("PageNumber","$pageNumber")
             MediatorResult.Success(endOfPaginationReached = pageNumber == maxPageNumber) //we need to calculate totalCount/pageSize max
 
 
