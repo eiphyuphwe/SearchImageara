@@ -1,5 +1,6 @@
 package com.example.searchimageara.domain.model
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,9 +8,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "image_data")
 data class ImageData(
 
-    @PrimaryKey(autoGenerate = true) val id: Int,
+   // @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "url")
-    val url: String? = null,
+    val url: String = "",
     @ColumnInfo(name = "height")
     val height: Int? = 0,
     @ColumnInfo(name = "width")
@@ -31,7 +34,9 @@ data class ImageData(
     @ColumnInfo(name = "image_websearch_url")
     val imageWebSearchUrl: String? = null,
     @ColumnInfo(name = "webpage_url")
-    val webpageUrl: String? = null
+    val webpageUrl: String? = null,
+    @ColumnInfo(name = "query")
+    val query: String? = null
 
 
 )

@@ -7,10 +7,9 @@ import com.example.searchimageara.domain.utility.DomainMapper
 
 class ImageDataDtoMapper : DomainMapper<ImageDataDto, ImageData> {
     val providerDtoMapper = ProviderDtoMapper()
-    override fun mapToDomainModel(model: ImageDataDto): ImageData {
+    override fun mapToDomainModel(model: ImageDataDto,query:String): ImageData {
 
         return ImageData(
-            id = 0,
             url = model.url,
             height = model.height,
             width = model.width,
@@ -20,9 +19,9 @@ class ImageDataDtoMapper : DomainMapper<ImageDataDto, ImageData> {
             base64Encoding = model.base64Encoding,
             name = model.name,
             title = model.title,
-            provider = model.provider?.let { providerDtoMapper.mapToDomainModel(it) },
+            provider = model.provider?.let { providerDtoMapper.mapToDomainModel(it,"") },
             imageWebSearchUrl = model.imageWebSearchUrl,
-            webpageUrl = model.webpageUrl
+            webpageUrl = model.webpageUrl,query
 
         )
     }
@@ -45,8 +44,8 @@ class ImageDataDtoMapper : DomainMapper<ImageDataDto, ImageData> {
         )
     }
 
-    fun toDomainList(initial: List<ImageDataDto>): List<ImageData> {
-        return initial.map { mapToDomainModel(it) }
+    fun toDomainList(initial: List<ImageDataDto>,query: String): List<ImageData> {
+        return initial.map { mapToDomainModel(it,query) }
     }
 
     fun fromDomainList(initial: List<ImageData>): List<ImageDataDto> {
@@ -54,7 +53,7 @@ class ImageDataDtoMapper : DomainMapper<ImageDataDto, ImageData> {
     }
 
     class ProviderDtoMapper : DomainMapper<ProviderDto, Provider> {
-        override fun mapToDomainModel(model: ProviderDto): Provider {
+        override fun mapToDomainModel(model: ProviderDto,query: String): Provider {
             return Provider(
                 name = model.name,
                 favIcon = model.favIcon,

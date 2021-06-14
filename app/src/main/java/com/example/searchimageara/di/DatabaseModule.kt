@@ -2,6 +2,7 @@ package com.example.searchimageara.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.searchimageara.database.ImageDataKeysDao
 import com.example.searchimageara.database.entity.DatabaseService
 import com.example.searchimageara.database.entity.ImageDataDao
 import com.example.searchimageara.network.model.ImageDataDtoMapper
@@ -20,6 +21,12 @@ object DatabaseModule {
     @Provides
     fun provideImageDao(databaseService: DatabaseService) : ImageDataDao {
         return databaseService.imageDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageDataKeysDao(databaseService: DatabaseService) : ImageDataKeysDao {
+        return databaseService.imageDataKeysDao()
     }
 
     @Singleton

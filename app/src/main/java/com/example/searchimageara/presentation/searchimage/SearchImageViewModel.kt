@@ -8,6 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.reposistory.SearchImageReposistory
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SearchImageViewModel
@@ -18,33 +22,15 @@ constructor(
     private var imageDataLists: MutableLiveData<List<ImageData>> =
         MutableLiveData<List<ImageData>>()
 
-    fun search(q: String, page: Int, pageSize: Int, autoCorrect: Boolean) {
-        viewModelScope.launch {
-            /*
-               1. load data from db by search
-                   if data is already in db
+    suspend fun search(q: String, page: Int, pageSize: Int, autoCorrect: Boolean) : Flow<PagingData<ImageData>>{
 
-            * */
-            val result = searchImageReposistory.search(
+           return searchImageReposistory.search(
                 query = q,
                 page = page,
                 pageSize = pageSize,
                 autoCorrect = autoCorrect
-            )
+            ).cachedIn(viewModelScope)
 
-            val dbresult =
-                searchImageReposistory.selectByImageWebSearchUrl(result.get(0).imageWebSearchUrl)
-            if (dbresult.size == 0) {
-                searchImageReposistory.insertAll(result)
-                imageDataLists?.value = result
-            } else {
-                // show db r
-                imageDataLists?.value = dbresult
-                dbresult.forEach {
-                    Log.e("DB", "db" + it.toString())
-                }
-            }
-        }
     }
 
     fun getSearchResults(): LiveData<List<ImageData>> {

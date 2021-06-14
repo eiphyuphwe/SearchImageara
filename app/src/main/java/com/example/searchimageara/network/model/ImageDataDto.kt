@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ImageDataDto(
     @SerializedName("url")
-    val url: String? = null,
+    val url: String = "",
     @SerializedName("height")
     val height: Int? = 0,
     @SerializedName("width")

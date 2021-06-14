@@ -3,11 +3,13 @@ package com.example.searchimageara.database.entity
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.searchimageara.database.ImageDataKeysDao
 import com.example.searchimageara.domain.model.ImageData
+import com.example.searchimageara.domain.model.ImageDataKeys
 import javax.inject.Singleton
 
 @Singleton
-@Database(entities = [ImageData::class],
+@Database(entities = [ImageData::class,ImageDataKeys::class],
     exportSchema = false,
     version = 1
     )
@@ -15,4 +17,5 @@ import javax.inject.Singleton
 abstract class DatabaseService : RoomDatabase() {
 
     abstract fun imageDao() : ImageDataDao
+    abstract fun imageDataKeysDao() : ImageDataKeysDao
 }
