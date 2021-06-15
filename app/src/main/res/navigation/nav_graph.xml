@@ -9,5 +9,13 @@
         android:id="@+id/searchImageFragment"
         android:name="com.example.searchimageara.presentation.searchimage.SearchImageFragment"
         android:label="fragment_image_search"
-        tools:layout="@layout/fragment_image_search" />
+        tools:layout="@layout/fragment_image_search" >
+       <!-- <action
+            android:id="@+id/action_searchImageFragment_to_imageDetailDialog"
+            app:destination="@id/imageDetailDialog" />-->
+    </fragment>
+   <!-- <dialog
+        android:id="@+id/imageDetailDialog"
+        android:name="com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailDialog"
+        android:label="ImageDetailDialog" />-->
 </navigation>

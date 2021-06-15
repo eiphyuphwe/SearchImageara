@@ -43,5 +43,6 @@ data class ImageDataKeys(
     val id: Int,
     var pageNumber:Int,
     val pageSize:Int,
+    val query:String,
     val totalCount:Int
 )

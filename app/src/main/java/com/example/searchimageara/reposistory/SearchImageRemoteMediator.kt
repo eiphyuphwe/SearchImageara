@@ -1,37 +1,3 @@
-/*
- * Copyright (c) 2020 Razeware LLC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
- * distribute, sublicense, create a derivative work, and/or sell copies of the
- * Software in any work that is designed, intended, or marketed for pedagogical or
- * instructional purposes related to programming, coding, application development,
- * or information technology.  Permission for such use, copying, modification,
- * merger, publication, distribution, sublicensing, creation of derivative works,
- * or sale is expressly withheld.
- *
- * This project and source code may use libraries or frameworks that are
- * released under various Open-Source licenses. Use of those libraries and
- * frameworks are governed by their own individual licenses.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package com.example.searchimageara.reposistory
 
 import android.util.Log
@@ -58,29 +24,55 @@ class SearchImageRemoteMediator @Inject constructor(
     private val autoCorrect: Boolean
 
 ) : RemoteMediator<Int, ImageData>() {
-    var  totalCount =0
-    var maxPageNumber =0
-    var pageCount =0;
+    var totalCount = 0
+    var maxPageNumber = 0
+    var networkTotalCount = 0;
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ImageData>
     ): MediatorResult {
         return try {
+            Log.e("TAG", "Start of Load:${loadType.name}")
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
-                    getImageDataKeys()
+
+                    val keys = getImageDataKeys()
+                    keys?.let {
+
+                        if (networkTotalCount > 0) {
+                            if (networkTotalCount % keys.pageSize != 0) {
+                                maxPageNumber = networkTotalCount / keys.pageSize + 1
+                            } else {
+                                maxPageNumber = networkTotalCount / keys.pageSize
+                            }
+                        }
+
+                        Log.e("TAG", "Page Number=${keys.pageNumber}")
+                        Log.e("TAG", "maxPageNumber=$maxPageNumber")
+                        if (keys.pageNumber > maxPageNumber) {
+                            Log.e("TAG", "page number>maxPageNumber")
+                            return MediatorResult.Success(endOfPaginationReached = true)
+                        } else {
+                            Log.e("TAG", "page number<=maxPageNumber")
+                        }
+                    }
+                    keys
                 }
             }
 
+            pageNumber = loadKey?.pageNumber ?: 1 //page number is 1 0r lastest page
+            Log.e(TAG, "pageNumber 1111 = $pageNumber")
 
-            var response = databaseService.imageDao().selectAllByQuery(query)
 
-            if(response.size <= 0 || maxPageNumber > pageCount) {
+            var imageDataList = databaseService.imageDao().selectAllByQuery(query)
+            Log.e(TAG, "dbsize = ${imageDataList.size}")
 
+            if (imageDataList.size <= 0 || networkTotalCount > imageDataList.size) //for testing purpose
+            {
                 val networkResponse = networkService.searchImages(
                     NetworkConstants.API_VALUE,
                     NetworkConstants.API_HOST_VALUE,
@@ -90,26 +82,69 @@ class SearchImageRemoteMediator @Inject constructor(
                     autoCorrect
                 )
 
-                totalCount = networkResponse?.count
-                Log.e("TotalCount","$totalCount")
                 val imageDataDto = networkResponse?.imageList
-                val imageDataList = networkMapper.toDomainList(imageDataDto, query)
+                imageDataList = networkMapper.toDomainList(imageDataDto, query)
+                if (pageNumber == 1) {
+                    totalCount = networkResponse.count
+                    networkTotalCount = networkResponse.count
+                    Log.e(TAG, "NETWORK TOTAL COUNT $networkTotalCount , pageNumber = $pageNumber")
+                    networkTotalCount = 100
+                } else {
+                    Log.e(
+                        TAG,
+                        "NETWORK TOTAL COUNT ${networkResponse.count} , pageNumber = $pageNumber"
+                    )
+                }
+                //get data from network
+                // Store loaded data, and next key in transaction, so that
+                // they're always consistent
+                /*databaseService.withTransaction {
+                    if (loadType == LoadType.REFRESH) {
+                        databaseService.imageDataKeysDao().deleteByQuery(query)
+                        databaseService.imageDao().deleteImageDataByQuery(query)
+
+                    }
+                }*/
+
                 if (imageDataList != null) {
                     databaseService.withTransaction {
                         databaseService.imageDataKeysDao()
-                            .saveImageDataKeys(ImageDataKeys(0, pageNumber++, pageSize, totalCount))
+                            .saveImageDataKeys(
+                                ImageDataKeys(
+                                    0,
+                                    pageNumber + 1,
+                                    pageSize,
+                                    query,
+                                    totalCount
+                                )
+                            )
 
                         databaseService.imageDao().saveAllImageData(imageDataList)
-                        pageCount = pageNumber
                     }
                 }
-            }else{
-                totalCount = response.size
+            } else {
+                Log.e(TAG, "I am db no need to do")
             }
-            maxPageNumber = totalCount / pageSize + 1
+            Log.e(TAG, "networkTotalCount = $networkTotalCount")
 
-            Log.e("PageNumber","$pageNumber")
-            MediatorResult.Success(endOfPaginationReached = pageNumber == maxPageNumber) //we need to calculate totalCount/pageSize max
+            /*if(loadKey!=null && loadKey?.totalCount > 0)
+            {*/
+            if (networkTotalCount > 0) {
+                if (networkTotalCount % pageSize != 0) {
+                    maxPageNumber = networkTotalCount / pageSize + 1
+                } else {
+                    maxPageNumber = networkTotalCount / pageSize
+                }
+            }
+            //  }
+            Log.e(TAG, " \"PageNumber 222\" $pageNumber")
+            Log.e(TAG, "Max Page Number = $maxPageNumber")
+            if (pageNumber >= maxPageNumber) {
+                Log.e(TAG, "pageNumber>=maxPageNumber $pageNumber >= $maxPageNumber")
+            } else {
+                Log.e(TAG, "pageNumber<maxPageNumber $pageNumber < $maxPageNumber")
+            }
+            MediatorResult.Success(endOfPaginationReached = pageNumber >= maxPageNumber) //we need to calculate totalCount/pageSize max
 
 
         } catch (exception: IOException) {
@@ -121,7 +156,11 @@ class SearchImageRemoteMediator @Inject constructor(
     }
 
     private suspend fun getImageDataKeys(): ImageDataKeys? {
-        return databaseService.imageDataKeysDao().getImageDataKeys().firstOrNull()
+        return databaseService.imageDataKeysDao().getImageDataKeys(query).firstOrNull()
 
+    }
+
+    companion object {
+        val TAG = "Search"
     }
 }

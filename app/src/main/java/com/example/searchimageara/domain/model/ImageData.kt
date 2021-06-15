@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "image_data")
 data class ImageData(
@@ -39,7 +40,7 @@ data class ImageData(
     val query: String? = null
 
 
-)
+) : Serializable
 
 data class Provider(
     val name: String? = null,

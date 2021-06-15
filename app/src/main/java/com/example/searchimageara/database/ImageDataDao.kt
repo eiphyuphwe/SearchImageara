@@ -13,9 +13,6 @@ interface ImageDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertImageData(imageData: ImageData)
 
-  /*  @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg images: List<ImageDataEntity>)*/
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveAllImageData(imageDataList: List<ImageData>)
 
@@ -27,5 +24,8 @@ interface ImageDataDao {
 
     @Query("SELECT * FROM image_data WHERE `query` LIKE :q")
     suspend fun selectAllByQuery(q:String?) : List<ImageData>
+
+    @Query("DELETE FROM image_data WHERE `query` = :q")
+    suspend fun deleteImageDataByQuery(q:String)
 
 }

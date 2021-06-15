@@ -49,13 +49,24 @@ import kotlinx.android.synthetic.main.item_image.view.*
 
 class SearchImageAdapter :
     PagingDataAdapter<ImageData, SearchImageAdapter.ImageDataViewHolder>(DiffUtilCallBack()) {
+    lateinit var onSearchImageSearchImageItemClickListener: OnSearchImageItemClickListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageDataViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
         return ImageDataViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ImageDataViewHolder, position: Int) {
-        getItem(position)?.let { holder.bindImageData(it) }
+         getItem(position)?.let { holder.bindImageData(it) }
+        val item = getItem(position)
+         holder.itemView.ivCover.setOnClickListener{
+             item?.let { it1 -> onSearchImageSearchImageItemClickListener.onItemClick(it1) }
+         }
+
+
+    }
+
+    fun setOnItemClickListener(listenerSearchImage:OnSearchImageItemClickListener){
+        onSearchImageSearchImageItemClickListener = listenerSearchImage
     }
 
     class ImageDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -65,10 +76,15 @@ class SearchImageAdapter :
 
         fun bindImageData(imageData: ImageData) {
             with(imageData) {
-                Glide.with(itemView.context).load(url).into(ivImageCover)
+                Glide.with(itemView.context).load(thumbnail).into(ivImageCover)
                 tvTitle.text = title
                 tvWebPageUrl.text = webpageUrl
             }
+
         }
+    }
+
+    interface OnSearchImageItemClickListener{
+        fun onItemClick(imageData: ImageData)
     }
 }

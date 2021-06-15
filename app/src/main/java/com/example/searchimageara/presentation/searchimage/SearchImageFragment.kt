@@ -10,8 +10,13 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.findNavController
 import com.example.searchimageara.R
+import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.presentation.MainActivityDelegate
+import com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailDialog
+import com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailViewModel
 import com.example.searchimageara.util.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_image_search.*
@@ -20,7 +25,7 @@ import kotlinx.coroutines.launch
 import java.lang.ClassCastException
 
 @AndroidEntryPoint
-class SearchImageFragment : Fragment() {
+class SearchImageFragment : Fragment(),SearchImageAdapter.OnSearchImageItemClickListener {
 
     private val viewModel: SearchImageViewModel by viewModels()
     private lateinit var mainActivityDelegate: MainActivityDelegate
@@ -52,8 +57,17 @@ class SearchImageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+        imageAdapter.setOnItemClickListener(this)
     }
 
+    override fun onItemClick(imageData: ImageData) {
+        /*findNavController().navigate(
+            R.id.imageDetailDialog,
+            ImageDetailViewModel.createArguments(imageData)
+        )*/
+        ImageDetailDialog().show(childFragmentManager,"ImageDetialDialog")
+
+    }
     private fun setupViews() {
         rvImages.adapter = imageAdapter
         tvSearch.setOnEditorActionListener { textView, actionId, _ ->
@@ -81,7 +95,7 @@ class SearchImageFragment : Fragment() {
 
     private fun searchImages(q:String) {
         lifecycleScope.launch {
-            viewModel.search(q, 1, 10, true)
+            viewModel.search(q, 1, 20, true)
                 .collectLatest { pagingData ->
                     imageAdapter.submitData(pagingData)
                 }

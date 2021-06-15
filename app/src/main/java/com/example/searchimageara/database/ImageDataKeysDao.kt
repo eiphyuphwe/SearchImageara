@@ -46,7 +46,10 @@ interface ImageDataKeysDao {
     @Insert(onConflict = REPLACE)
     suspend fun saveImageDataKeys(imageDataKeys: ImageDataKeys)
 
-    @Query("SELECT * FROM imageDataKeys ORDER BY id DESC")
-    suspend fun getImageDataKeys(): List<ImageDataKeys>
+    @Query("SELECT * FROM imageDataKeys WHERE `query` = :query ORDER BY id DESC")
+    suspend fun getImageDataKeys(query:String): List<ImageDataKeys>
+
+    @Query("DELETE FROM imageDataKeys WHERE `query` = :query")
+    suspend fun deleteByQuery(query: String)
 
 }
