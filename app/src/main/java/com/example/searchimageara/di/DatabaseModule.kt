@@ -2,10 +2,9 @@ package com.example.searchimageara.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.searchimageara.database.ImageDataKeysDao
+import com.example.searchimageara.database.RemoteKeyDao
 import com.example.searchimageara.database.entity.DatabaseService
 import com.example.searchimageara.database.entity.ImageDataDao
-import com.example.searchimageara.network.model.ImageDataDtoMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +24,8 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideImageDataKeysDao(databaseService: DatabaseService) : ImageDataKeysDao {
-        return databaseService.imageDataKeysDao()
+    fun provideImageDataKeysDao(databaseService: DatabaseService) : RemoteKeyDao {
+        return databaseService.remoteKeyDao()
     }
 
     @Singleton

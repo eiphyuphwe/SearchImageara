@@ -10,12 +10,21 @@
         android:name="com.example.searchimageara.presentation.searchimage.SearchImageFragment"
         android:label="fragment_image_search"
         tools:layout="@layout/fragment_image_search" >
-       <!-- <action
-            android:id="@+id/action_searchImageFragment_to_imageDetailDialog"
-            app:destination="@id/imageDetailDialog" />-->
+
+        <action
+            android:id="@+id/action_searchImageFragment_to_imageDetailDialog2"
+            app:destination="@id/imageDetailDialog2" />
+        <action
+            android:id="@+id/action_searchImageFragment_to_imageDataWebSite"
+            app:destination="@id/imageDataWebSite" />
     </fragment>
-   <!-- <dialog
-        android:id="@+id/imageDetailDialog"
+    <dialog
+        android:id="@+id/imageDetailDialog2"
         android:name="com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailDialog"
-        android:label="ImageDetailDialog" />-->
+        android:label="ImageDetailDialog" />
+    <fragment
+        android:id="@+id/imageDataWebSite"
+        android:name="com.example.searchimageara.presentation.webpage.ImageDataWebSite"
+        android:label="ImageDataWebSite" />
+
 </navigation>

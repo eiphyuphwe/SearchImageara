@@ -24,13 +24,11 @@ constructor(
 
     override suspend fun search(
         query: String,
-        pageNumber: Int,
-        pageSize: Int,
         autoCorrect: Boolean
     ): Flow<PagingData<ImageData>> {
         return Pager(
-            PagingConfig(pageSize = pageSize, enablePlaceholders = false, prefetchDistance = 1),
-            remoteMediator = SearchImageRemoteMediator(imageService,networkMapper, databaseService,query,pageNumber,pageSize,autoCorrect),
+            PagingConfig(pageSize = NetworkConstants.DEFAULT_PAGE_SIZE, enablePlaceholders = false, prefetchDistance = 1),
+            remoteMediator = SearchImageRemoteMediator(imageService,networkMapper, databaseService,query,autoCorrect),
             pagingSourceFactory = {
                 databaseService.imageDao().selectAll(query)
             }

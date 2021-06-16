@@ -6,9 +6,7 @@ import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.searchimageara.R
@@ -25,6 +23,9 @@ class MainActivity : AppCompatActivity(),MainActivityDelegate {
         setTheme(R.style.Theme_SearchImageara)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+       /* val destination = ImageDataDetailsNavigator(navHostFragment.childFragmentManager)
+        navHostFragment.findNavController().navigatorProvider.addNavigator(destination)*/
 
         val inflater = navHostFragment.findNavController().navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
@@ -57,14 +58,4 @@ class MainActivity : AppCompatActivity(),MainActivityDelegate {
         drawerLayout.isEnabled = enable
     }
 
-   /* viewModel.search("dogs",1,5,true);
-    viewModel.getSearchResults().observe(this, Observer {
-
-        val result = it
-        result.forEach {
-            println(it.toString())
-        }
-
-
-    })*/
 }

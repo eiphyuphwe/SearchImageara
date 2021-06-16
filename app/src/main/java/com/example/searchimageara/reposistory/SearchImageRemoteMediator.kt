@@ -19,14 +19,9 @@ class SearchImageRemoteMediator @Inject constructor(
     private val networkMapper: ImageDataDtoMapper,
     private val databaseService: DatabaseService,
     private val query: String,
-    private var pageNumber: Int,
-    private val pageSize: Int,
     private val autoCorrect: Boolean
 
 ) : RemoteMediator<Int, ImageData>() {
-    var totalCount = 0
-    var maxPageNumber = 0
-    var networkTotalCount = 0;
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ImageData>
@@ -40,112 +35,96 @@ class SearchImageRemoteMediator @Inject constructor(
                     state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
 
-                    val keys = getImageDataKeys()
-                    keys?.let {
-
-                        if (networkTotalCount > 0) {
-                            if (networkTotalCount % keys.pageSize != 0) {
-                                maxPageNumber = networkTotalCount / keys.pageSize + 1
-                            } else {
-                                maxPageNumber = networkTotalCount / keys.pageSize
-                            }
-                        }
-
-                        Log.e("TAG", "Page Number=${keys.pageNumber}")
-                        Log.e("TAG", "maxPageNumber=$maxPageNumber")
-                        if (keys.pageNumber > maxPageNumber) {
-                            Log.e("TAG", "page number>maxPageNumber")
-                            return MediatorResult.Success(endOfPaginationReached = true)
-                        } else {
-                            Log.e("TAG", "page number<=maxPageNumber")
-                        }
-                    }
+                    val keys = getRemoteKeys(query)
+                    /*  keys?.let {
+                          val maxPageNumber: Int
+                          if (it.totalCount % it.pageSize != 0) {
+                              maxPageNumber = it.totalCount / it.pageSize + 1
+                          } else {
+                              maxPageNumber = it.totalCount / it.pageSize
+                          }
+                          Log.e(TAG, "Page Number=${it.pageNumber}")
+                          Log.e(TAG, "maxPageNumber=$maxPageNumber")
+                          if (it.pageNumber > maxPageNumber) {
+                              Log.e(TAG, "page number>maxPageNumber")
+                              return MediatorResult.Success(endOfPaginationReached = true)
+                          } else {
+                              Log.e(TAG, "page number<=maxPageNumber")
+                          }
+                      }*/
                     keys
                 }
             }
+            var pageNumber = 0
+            pageNumber = loadKey?.pageNumber?.plus(1)
+                ?: 1 //page number is 1 0r latest page//page number is 1 0r lastest page
+            Log.e(TAG, "pageNumber = $pageNumber")
 
-            pageNumber = loadKey?.pageNumber ?: 1 //page number is 1 0r lastest page
-            Log.e(TAG, "pageNumber 1111 = $pageNumber")
 
-
-            var imageDataList = databaseService.imageDao().selectAllByQuery(query)
-            Log.e(TAG, "dbsize = ${imageDataList.size}")
-
-            if (imageDataList.size <= 0 || networkTotalCount > imageDataList.size) //for testing purpose
-            {
-                val networkResponse = networkService.searchImages(
-                    NetworkConstants.API_VALUE,
-                    NetworkConstants.API_HOST_VALUE,
-                    query,
-                    pageNumber,
-                    pageSize,
-                    autoCorrect
-                )
-
-                val imageDataDto = networkResponse?.imageList
-                imageDataList = networkMapper.toDomainList(imageDataDto, query)
-                if (pageNumber == 1) {
-                    totalCount = networkResponse.count
-                    networkTotalCount = networkResponse.count
-                    Log.e(TAG, "NETWORK TOTAL COUNT $networkTotalCount , pageNumber = $pageNumber")
-                    networkTotalCount = 100
-                } else {
-                    Log.e(
-                        TAG,
-                        "NETWORK TOTAL COUNT ${networkResponse.count} , pageNumber = $pageNumber"
-                    )
-                }
-                //get data from network
-                // Store loaded data, and next key in transaction, so that
-                // they're always consistent
-                /*databaseService.withTransaction {
-                    if (loadType == LoadType.REFRESH) {
-                        databaseService.imageDataKeysDao().deleteByQuery(query)
-                        databaseService.imageDao().deleteImageDataByQuery(query)
-
-                    }
-                }*/
-
-                if (imageDataList != null) {
-                    databaseService.withTransaction {
-                        databaseService.imageDataKeysDao()
-                            .saveImageDataKeys(
-                                ImageDataKeys(
-                                    0,
-                                    pageNumber + 1,
-                                    pageSize,
-                                    query,
-                                    totalCount
-                                )
-                            )
-
-                        databaseService.imageDao().saveAllImageData(imageDataList)
-                    }
-                }
+            val networkResponse = networkService.searchImages(
+                NetworkConstants.API_VALUE,
+                NetworkConstants.API_HOST_VALUE,
+                query,
+                pageNumber,
+                NetworkConstants.DEFAULT_PAGE_SIZE,
+                autoCorrect
+            )
+            val isEndOfList: Boolean
+            if (networkResponse == null) {
+                isEndOfList = true
             } else {
-                Log.e(TAG, "I am db no need to do")
+                isEndOfList = false
             }
-            Log.e(TAG, "networkTotalCount = $networkTotalCount")
+            val imageDataDto = networkResponse?.imageList
+            val imageDataList = networkMapper.toDomainList(imageDataDto, query)
 
-            /*if(loadKey!=null && loadKey?.totalCount > 0)
-            {*/
-            if (networkTotalCount > 0) {
-                if (networkTotalCount % pageSize != 0) {
-                    maxPageNumber = networkTotalCount / pageSize + 1
-                } else {
-                    maxPageNumber = networkTotalCount / pageSize
+            //get data from network
+            // Store loaded data, and next key in transaction, so that
+            // they're always consistent
+            databaseService.withTransaction {
+                if (loadType == LoadType.REFRESH) {
+                    databaseService.remoteKeyDao().deleteByQuery(query)
+                    databaseService.imageDao().deleteImageDataByQuery(query)
                 }
             }
-            //  }
+
+            if (imageDataList != null) {
+                databaseService.withTransaction {
+                    databaseService.remoteKeyDao()
+                        .insertOrReplaceRemoteKeys(
+                            ImageDataKeys(
+                                0,
+                                pageNumber,
+                                NetworkConstants.DEFAULT_PAGE_SIZE,
+                                query,
+                                networkResponse.count
+                            )
+                        )
+
+                    databaseService.imageDao().saveAllImageData(imageDataList)
+                }
+            }
+            val totalCountFromNetwork = networkResponse.count
+            Log.e(TAG, "networkTotalCount = ${networkResponse.count}")
+            /*
+            var maxPageNumber:Int =0
+            if (totalCountFromNetwork > 0) {
+                if (totalCountFromNetwork %  NetworkConstants.DEFAULT_PAGE_SIZE != 0) {
+                    maxPageNumber = totalCountFromNetwork /  NetworkConstants.DEFAULT_PAGE_SIZE + 1
+                } else {
+                    maxPageNumber = totalCountFromNetwork /  NetworkConstants.DEFAULT_PAGE_SIZE
+                }
+            }
+
             Log.e(TAG, " \"PageNumber 222\" $pageNumber")
             Log.e(TAG, "Max Page Number = $maxPageNumber")
             if (pageNumber >= maxPageNumber) {
                 Log.e(TAG, "pageNumber>=maxPageNumber $pageNumber >= $maxPageNumber")
             } else {
                 Log.e(TAG, "pageNumber<maxPageNumber $pageNumber < $maxPageNumber")
-            }
-            MediatorResult.Success(endOfPaginationReached = pageNumber >= maxPageNumber) //we need to calculate totalCount/pageSize max
-
+            }*/
+            // MediatorResult.Success(endOfPaginationReached = pageNumber >= maxPageNumber) //we need to calculate totalCount/pageSize max
+            return MediatorResult.Success(endOfPaginationReached = isEndOfList)
 
         } catch (exception: IOException) {
             MediatorResult.Error(exception)
@@ -155,9 +134,14 @@ class SearchImageRemoteMediator @Inject constructor(
 
     }
 
-    private suspend fun getImageDataKeys(): ImageDataKeys? {
-        return databaseService.imageDataKeysDao().getImageDataKeys(query).firstOrNull()
+    private suspend fun getRemoteKeys(query: String): ImageDataKeys? {
+        return databaseService.remoteKeyDao().remoteKeyByQuery(query).firstOrNull()
+    }
 
+    private suspend fun getClosestRemoteKey(state: PagingState<Int, ImageData>): ImageDataKeys? {
+        return state.anchorPosition?.let { position ->
+           databaseService.remoteKeyDao().remoteKeyByQueryAndPage(query,position).firstOrNull()
+        }
     }
 
     companion object {

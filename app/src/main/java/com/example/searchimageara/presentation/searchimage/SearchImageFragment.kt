@@ -61,15 +61,26 @@ class SearchImageFragment : Fragment(),SearchImageAdapter.OnSearchImageItemClick
     }
 
     override fun onItemClick(imageData: ImageData) {
-        /*findNavController().navigate(
-            R.id.imageDetailDialog,
-            ImageDetailViewModel.createArguments(imageData)
-        )*/
-        ImageDetailDialog().show(childFragmentManager,"ImageDetialDialog")
+        imageData?.let {
+            findNavController().navigate(
+                R.id.action_searchImageFragment_to_imageDetailDialog2,
+                ImageDetailViewModel.createArguments(imageData)
+            )
+        }
+    }
 
+    override fun onUrlCliclk(imageData: ImageData) {
+        imageData?.let {
+            findNavController().navigate(
+                R.id.action_searchImageFragment_to_imageDataWebSite,
+                ImageDetailViewModel.createArguments(imageData)
+            )
+        }
     }
     private fun setupViews() {
-        rvImages.adapter = imageAdapter
+        //rvImages.adapter = imageAdapter
+        val loaderStateAdapter = LoaderStateAdapter{ imageAdapter.retry() }
+        rvImages.adapter = imageAdapter.withLoadStateFooter(loaderStateAdapter)
         tvSearch.setOnEditorActionListener { textView, actionId, _ ->
 
             when (actionId) {
@@ -95,7 +106,7 @@ class SearchImageFragment : Fragment(),SearchImageAdapter.OnSearchImageItemClick
 
     private fun searchImages(q:String) {
         lifecycleScope.launch {
-            viewModel.search(q, 1, 20, true)
+            viewModel.search(q,  true)
                 .collectLatest { pagingData ->
                     imageAdapter.submitData(pagingData)
                 }

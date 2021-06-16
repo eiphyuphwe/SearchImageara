@@ -22,12 +22,10 @@ constructor(
     private var imageDataLists: MutableLiveData<List<ImageData>> =
         MutableLiveData<List<ImageData>>()
 
-    suspend fun search(q: String, page: Int, pageSize: Int, autoCorrect: Boolean) : Flow<PagingData<ImageData>>{
+    suspend fun search(q: String, autoCorrect: Boolean) : Flow<PagingData<ImageData>>{
 
            return searchImageReposistory.search(
                 query = q,
-                page = page,
-                pageSize = pageSize,
                 autoCorrect = autoCorrect
             ).cachedIn(viewModelScope)
 

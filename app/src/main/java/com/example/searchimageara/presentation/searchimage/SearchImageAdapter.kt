@@ -61,6 +61,9 @@ class SearchImageAdapter :
          holder.itemView.ivCover.setOnClickListener{
              item?.let { it1 -> onSearchImageSearchImageItemClickListener.onItemClick(it1) }
          }
+        holder.itemView.tvWebPageUrl.setOnClickListener{
+            item?.let { it1 -> onSearchImageSearchImageItemClickListener.onUrlCliclk(it1) }
+        }
 
 
     }
@@ -86,5 +89,6 @@ class SearchImageAdapter :
 
     interface OnSearchImageItemClickListener{
         fun onItemClick(imageData: ImageData)
+        fun onUrlCliclk(imageData: ImageData)
     }
 }
