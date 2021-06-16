@@ -27,7 +27,7 @@ constructor(
         autoCorrect: Boolean
     ): Flow<PagingData<ImageData>> {
         return Pager(
-            PagingConfig(pageSize = NetworkConstants.DEFAULT_PAGE_SIZE, enablePlaceholders = false, prefetchDistance = 1),
+            PagingConfig(pageSize = NetworkConstants.DEFAULT_PAGE_SIZE, enablePlaceholders = false),
             remoteMediator = SearchImageRemoteMediator(imageService,networkMapper, databaseService,query,autoCorrect),
             pagingSourceFactory = {
                 databaseService.imageDao().selectAll(query)

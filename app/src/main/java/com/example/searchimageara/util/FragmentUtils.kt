@@ -11,3 +11,4 @@ fun Fragment.initToolbar(toolbar: Toolbar, titleResId: Int, backEnabled: Boolean
   appCompatActivity.supportActionBar?.setTitle(titleResId)
   appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(backEnabled)
 }
+

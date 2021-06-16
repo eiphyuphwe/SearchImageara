@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.searchimageara.R
 import com.example.searchimageara.presentation.searchimage.SearchImageViewModel
@@ -24,8 +25,6 @@ class MainActivity : AppCompatActivity(),MainActivityDelegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-       /* val destination = ImageDataDetailsNavigator(navHostFragment.childFragmentManager)
-        navHostFragment.findNavController().navigatorProvider.addNavigator(destination)*/
 
         val inflater = navHostFragment.findNavController().navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
@@ -52,6 +51,7 @@ class MainActivity : AppCompatActivity(),MainActivityDelegate {
         toggle.syncState()
 
         drawerLayout.navView.setupWithNavController(navHostFragment.findNavController())
+
     }
 
     override fun enableNavDrawer(enable: Boolean) {

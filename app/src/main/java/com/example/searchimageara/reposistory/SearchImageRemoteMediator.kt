@@ -32,26 +32,11 @@ class SearchImageRemoteMediator @Inject constructor(
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
+                    Log.e(TAG,"state = ${state.lastItemOrNull()}")
                     state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
 
                     val keys = getRemoteKeys(query)
-                    /*  keys?.let {
-                          val maxPageNumber: Int
-                          if (it.totalCount % it.pageSize != 0) {
-                              maxPageNumber = it.totalCount / it.pageSize + 1
-                          } else {
-                              maxPageNumber = it.totalCount / it.pageSize
-                          }
-                          Log.e(TAG, "Page Number=${it.pageNumber}")
-                          Log.e(TAG, "maxPageNumber=$maxPageNumber")
-                          if (it.pageNumber > maxPageNumber) {
-                              Log.e(TAG, "page number>maxPageNumber")
-                              return MediatorResult.Success(endOfPaginationReached = true)
-                          } else {
-                              Log.e(TAG, "page number<=maxPageNumber")
-                          }
-                      }*/
                     keys
                 }
             }
@@ -70,11 +55,12 @@ class SearchImageRemoteMediator @Inject constructor(
                 autoCorrect
             )
             val isEndOfList: Boolean
-            if (networkResponse == null) {
+            if (networkResponse.imageList.size == 0) {
                 isEndOfList = true
             } else {
                 isEndOfList = false
             }
+            Log.e(TAG,"NetworkCount Here = ${networkResponse.count} $isEndOfList,== ${networkResponse.imageList.size}")
             val imageDataDto = networkResponse?.imageList
             val imageDataList = networkMapper.toDomainList(imageDataDto, query)
 
@@ -106,7 +92,7 @@ class SearchImageRemoteMediator @Inject constructor(
             }
             val totalCountFromNetwork = networkResponse.count
             Log.e(TAG, "networkTotalCount = ${networkResponse.count}")
-            /*
+
             var maxPageNumber:Int =0
             if (totalCountFromNetwork > 0) {
                 if (totalCountFromNetwork %  NetworkConstants.DEFAULT_PAGE_SIZE != 0) {
@@ -118,12 +104,8 @@ class SearchImageRemoteMediator @Inject constructor(
 
             Log.e(TAG, " \"PageNumber 222\" $pageNumber")
             Log.e(TAG, "Max Page Number = $maxPageNumber")
-            if (pageNumber >= maxPageNumber) {
-                Log.e(TAG, "pageNumber>=maxPageNumber $pageNumber >= $maxPageNumber")
-            } else {
-                Log.e(TAG, "pageNumber<maxPageNumber $pageNumber < $maxPageNumber")
-            }*/
-            // MediatorResult.Success(endOfPaginationReached = pageNumber >= maxPageNumber) //we need to calculate totalCount/pageSize max
+            Log.e(TAG, "isEndofList = $isEndOfList")
+
             return MediatorResult.Success(endOfPaginationReached = isEndOfList)
 
         } catch (exception: IOException) {
