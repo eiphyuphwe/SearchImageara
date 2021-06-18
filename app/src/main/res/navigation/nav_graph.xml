@@ -20,7 +20,7 @@
     </fragment>
     <dialog
         android:id="@+id/imageDetailDialog2"
-        android:name="com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailDialog"
+        android:name="com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailDialogFragment"
         android:label="ImageDetailDialog" />
     <fragment
         android:id="@+id/imageDataWebSite"

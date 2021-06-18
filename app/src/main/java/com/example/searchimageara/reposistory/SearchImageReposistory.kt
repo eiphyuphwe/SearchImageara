@@ -7,6 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchImageReposistory {
     suspend fun search(query:String,autoCorrect:Boolean) : Flow<PagingData<ImageData>>
-    suspend fun insertAll(imageDataList:List<ImageData>)
-    suspend fun selectByImageWebSearchUrl(url:String?) : List<ImageData>
+
 }

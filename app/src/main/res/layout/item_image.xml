@@ -1,54 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:layout_marginRight="10dp"
-    android:foreground="?selectableItemBackground">
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="5dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/ivCover"
-        android:layout_width="@dimen/image_cover_width"
-        android:layout_height="100dp"
-        android:layout_margin="@dimen/margin_small"
-        android:layout_marginStart="4dp"
-        android:contentDescription="@string/image_cover"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:src="@drawable/image_cover_missing" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_image_cover"
-        android:layout_marginLeft="@dimen/margin_image_cover"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:ellipsize="end"
-        android:maxLines="1"
-        app:layout_constraintStart_toEndOf="@+id/ivCover"
-        app:layout_constraintTop_toTopOf="@+id/ivCover"
-        app:layout_constraintVertical_bias="1.0"
-        tools:text="Tayler Swift" />
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingRight="10dp"
+        android:foreground="?selectableItemBackground">
 
-    <TextView
-        android:id="@+id/tvWebPageUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_image_cover"
-        android:layout_marginLeft="@dimen/margin_image_cover"
-        android:ellipsize="end"
-        android:maxLines="1"
-        app:layout_constraintStart_toEndOf="@+id/ivCover"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        tools:text="Url" />
+        <ImageView
+            android:id="@+id/ivCover"
+            android:layout_width="@dimen/image_cover_width"
+            android:layout_height="100dp"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_marginStart="4dp"
+            android:contentDescription="@string/image_cover"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:src="@drawable/image_cover_missing" />
 
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_image_cover"
+            android:layout_marginLeft="@dimen/margin_image_cover"
+            android:layout_marginRight="@dimen/margin_image_cover"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
+            app:layout_constraintTop_toTopOf="@+id/ivCover"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="Tayler Swift" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvWebPageUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_image_cover"
+            android:layout_marginLeft="@dimen/margin_image_cover"
+            android:paddingRight="@dimen/margin_image_cover"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="12sp"
+            android:textColor="@color/teal_200"
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="Url" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

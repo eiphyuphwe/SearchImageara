@@ -11,21 +11,15 @@ import com.example.searchimageara.domain.model.ImageData
 interface ImageDataDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertImageData(imageData: ImageData)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveAllImageData(imageDataList: List<ImageData>)
-
-    @Query("SELECT * FROM image_data WHERE image_websearch_url LIKE :q")
-    suspend fun selectImagesByImageWebSearchUrl(q:String?) : List<ImageData>
 
     @Query("SELECT * FROM image_data WHERE `query` LIKE :q")
     fun selectAll(q:String?) : PagingSource<Int,ImageData>
 
-    @Query("SELECT * FROM image_data WHERE `query` LIKE :q")
-    suspend fun selectAllByQuery(q:String?) : List<ImageData>
-
     @Query("DELETE FROM image_data WHERE `query` = :q")
     suspend fun deleteImageDataByQuery(q:String)
+
+    @Query("SELECT * FROM image_data")
+    fun selectAllData() : List<ImageData>
 
 }

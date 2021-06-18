@@ -120,12 +120,6 @@ class SearchImageRemoteMediator @Inject constructor(
         return databaseService.remoteKeyDao().remoteKeyByQuery(query).firstOrNull()
     }
 
-    private suspend fun getClosestRemoteKey(state: PagingState<Int, ImageData>): ImageDataKeys? {
-        return state.anchorPosition?.let { position ->
-           databaseService.remoteKeyDao().remoteKeyByQueryAndPage(query,position).firstOrNull()
-        }
-    }
-
     companion object {
         val TAG = "Search"
     }

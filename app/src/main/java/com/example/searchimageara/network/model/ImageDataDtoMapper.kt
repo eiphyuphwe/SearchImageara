@@ -48,10 +48,6 @@ class ImageDataDtoMapper : DomainMapper<ImageDataDto, ImageData> {
         return initial.map { mapToDomainModel(it,query) }
     }
 
-    fun fromDomainList(initial: List<ImageData>): List<ImageDataDto> {
-        return initial.map { mapFromDomainModel(it) }
-    }
-
     class ProviderDtoMapper : DomainMapper<ProviderDto, Provider> {
         override fun mapToDomainModel(model: ProviderDto,query: String): Provider {
             return Provider(

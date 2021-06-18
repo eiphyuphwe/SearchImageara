@@ -10,12 +10,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import com.example.searchimageara.R
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.presentation.MainActivityDelegate
-import com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailDialog
 import com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailViewModel
 import com.example.searchimageara.util.initToolbar
 import dagger.hilt.android.AndroidEntryPoint

@@ -35,19 +35,4 @@ constructor(
         ).flow
     }
 
-    override suspend fun insertAll(imageDataEntityList: List<ImageData>) {
-       // val dataModelList = dbMapper.fromDomainList(imageDataEntityList)
-        imageDataEntityList.forEach {
-            databaseService.imageDao().insertImageData(it)
-        }
-
-    }
-
-    override suspend fun selectByImageWebSearchUrl(url: String?): List<ImageData> {
-       //return dbMapper.toDomainList(databaseService.imageDao().selectImagesByImageWebSearchUrl(url))
-        return databaseService.imageDao().selectImagesByImageWebSearchUrl(url)
-    }
-
-
-
 }

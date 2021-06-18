@@ -8,13 +8,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.searchimageara.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_imagedetail.view.*
 
 
 @AndroidEntryPoint
-class ImageDetailDialog : DialogFragment() {
+class ImageDetailDialogFragment : DialogFragment() {
 
     private val viewModel: ImageDetailViewModel by viewModels()
     override fun onCreateView(
@@ -30,9 +32,15 @@ class ImageDetailDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getImageDetailData().observe(this, Observer {
-            Glide.with(view.context)
-                .load(it.url)
-                .into(view.imgDetail)
+            it.width?.let { it1 ->
+                it.height?.let { it2 ->
+                    Glide.with(view.context)
+                        .load(it.url)
+                        .transform( CenterCrop())
+                        .override(it1, it2)
+                        .into(view.imgDetail)
+                }
+            }
         })
     }
 
