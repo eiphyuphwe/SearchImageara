@@ -84,4 +84,25 @@ class SearchImageRemoteMediatorTest {
         assertFalse ((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
     }
 
+    @Test
+    fun refreshLoadSuccessAndEndOfPaginationWhenNoMoreData() = runBlocking {
+        // To test endOfPaginationReached, don't set up the mockApi to return post
+        // data here.
+        val remoteMediator = SearchImageRemoteMediator(
+            databaseService = database,
+            networkService = networkService,
+            networkMapper = dtoMapper,
+            query = "testEmptySearch",
+            autoCorrect = true
+        )
+        val pagingState = PagingState<Int, ImageData>(
+            listOf(),
+            null,
+            PagingConfig(10),
+            10
+        )
+        val result = remoteMediator.load(LoadType.REFRESH, pagingState)
+        assertTrue (result is RemoteMediator.MediatorResult.Success )
+        assertTrue ( (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached )
+    }
 }

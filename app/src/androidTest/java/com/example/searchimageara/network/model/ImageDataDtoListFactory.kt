@@ -8,7 +8,8 @@ class ImageDataDtoListFactory {
             count:Int
     ): List<ImageDataDto> {
 
-        if(query.isEmpty()){
+        if(query.isEmpty() ||
+            query=="testEmptySearch"){
             return emptyList()
         }
         val startIndex= calcStartIndex(pageNumber,pageSize)
