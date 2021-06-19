@@ -51,7 +51,7 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
     @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initToolbar(toolbar = toolbar, R.string.image_search, false)
+        initToolbar(toolbar = toolbar, R.string.app_name, false)
         mainActivityDelegate.setupNavDrawer(toolbar)
         mainActivityDelegate.enableNavDrawer(true)
     }

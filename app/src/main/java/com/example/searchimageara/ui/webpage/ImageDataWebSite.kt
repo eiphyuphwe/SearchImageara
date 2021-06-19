@@ -27,7 +27,7 @@ class ImageDataWebSite : Fragment() {
     @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initToolbar(toolbar1, 0, true)
+        initToolbar(toolbar1, R.string.web_page, true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

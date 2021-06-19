@@ -3,6 +3,7 @@
     <string name="image_cover">Image cover</string>
     <string name="search_images">Search Images</string>
     <string name="image_search">Image Search</string>
+    <string name="web_page">Web Page</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
