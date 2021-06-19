@@ -33,6 +33,7 @@ class DatabaseServiceImageDataDaoTest {
     @Inject
     @Named("test_db")
     lateinit var db: DatabaseService
+
     lateinit var imageDataDao: ImageDataDao
 
 

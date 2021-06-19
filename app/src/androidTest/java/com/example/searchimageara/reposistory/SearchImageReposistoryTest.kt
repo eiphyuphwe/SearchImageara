@@ -64,8 +64,6 @@ class SearchImageReposistoryTest {
         imageDataDao = database.imageDao()
         searchImageRepo = SerachImageReposistory_Impl(networkService, dtoMapper, database)
         mockWebServer.start()
-
-
     }
 
     @After

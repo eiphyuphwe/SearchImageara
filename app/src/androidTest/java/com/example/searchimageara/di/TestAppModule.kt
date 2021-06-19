@@ -2,7 +2,9 @@ package com.example.searchimageara.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.searchimageara.database.RemoteKeyDao
 import com.example.searchimageara.database.entity.DatabaseService
+import com.example.searchimageara.database.entity.ImageDataDao
 import com.example.searchimageara.network.NetworkConstants
 import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper
@@ -14,6 +16,7 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executors
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -27,12 +30,27 @@ object TestAppModule {
         Room.inMemoryDatabaseBuilder(
             context, DatabaseService::class.java
         ).allowMainThreadQueries()
+            .setTransactionExecutor(Executors.newSingleThreadExecutor())
             .build()
+
 
     @Provides
     @Named("test_mapper")
     fun provideImageDataDtoMapper() : ImageDataDtoMapper {
         return ImageDataDtoMapper()
+    }
+
+    @Provides
+    @Named("test_imagedao")
+    fun provideImageDao(databaseService: DatabaseService) : ImageDataDao {
+        return databaseService.imageDao()
+    }
+
+
+    @Provides
+    @Named("test_remotekeydao")
+    fun provideImageDataKeysDao(databaseService: DatabaseService) : RemoteKeyDao {
+        return databaseService.remoteKeyDao()
     }
 
     @Provides
