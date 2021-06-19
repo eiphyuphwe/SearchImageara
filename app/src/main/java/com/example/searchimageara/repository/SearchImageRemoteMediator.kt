@@ -6,7 +6,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.example.searchimageara.database.entity.DatabaseService
+import com.example.searchimageara.database.DatabaseService
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.domain.model.ImageDataKeys
 import com.example.searchimageara.network.NetworkConstants

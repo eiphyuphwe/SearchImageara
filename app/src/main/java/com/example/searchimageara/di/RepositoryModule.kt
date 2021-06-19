@@ -1,6 +1,6 @@
 package com.example.searchimageara.di
 
-import com.example.searchimageara.database.entity.DatabaseService
+import com.example.searchimageara.database.DatabaseService
 import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper
 import com.example.searchimageara.repository.SearchImageRepository

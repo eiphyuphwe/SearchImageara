@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.searchimageara.database.RemoteKeyDao
-import com.example.searchimageara.database.entity.DatabaseService
+import com.example.searchimageara.database.DatabaseService
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.network.MockSearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper

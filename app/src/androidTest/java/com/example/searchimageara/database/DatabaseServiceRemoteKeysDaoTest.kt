@@ -2,7 +2,7 @@ package com.example.searchimageara.database
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
-import com.example.searchimageara.database.entity.DatabaseService
+import com.example.searchimageara.database.DatabaseService
 import com.example.searchimageara.domain.model.ImageDataKeys
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

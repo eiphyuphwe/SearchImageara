@@ -3,7 +3,7 @@ package com.example.searchimageara.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.searchimageara.database.entity.DatabaseService
+import com.example.searchimageara.database.DatabaseService
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.network.NetworkConstants
 import com.example.searchimageara.network.SearchImageService

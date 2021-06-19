@@ -1,4 +1,4 @@
-package com.example.searchimageara.database.entity
+package com.example.searchimageara.database
 
 import androidx.room.TypeConverter
 import com.example.searchimageara.domain.model.Provider

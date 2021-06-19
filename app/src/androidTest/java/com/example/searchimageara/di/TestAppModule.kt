@@ -3,8 +3,8 @@ package com.example.searchimageara.di
 import android.content.Context
 import androidx.room.Room
 import com.example.searchimageara.database.RemoteKeyDao
-import com.example.searchimageara.database.entity.DatabaseService
-import com.example.searchimageara.database.entity.ImageDataDao
+import com.example.searchimageara.database.DatabaseService
+import com.example.searchimageara.database.ImageDataDao
 import com.example.searchimageara.network.NetworkConstants
 import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper

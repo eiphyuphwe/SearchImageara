@@ -1,9 +1,8 @@
-package com.example.searchimageara.database.entity
+package com.example.searchimageara.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.searchimageara.database.RemoteKeyDao
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.domain.model.ImageDataKeys
 import javax.inject.Singleton

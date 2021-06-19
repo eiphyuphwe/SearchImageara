@@ -2,9 +2,9 @@ package com.example.searchimageara.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.searchimageara.database.DatabaseService
+import com.example.searchimageara.database.ImageDataDao
 import com.example.searchimageara.database.RemoteKeyDao
-import com.example.searchimageara.database.entity.DatabaseService
-import com.example.searchimageara.database.entity.ImageDataDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
