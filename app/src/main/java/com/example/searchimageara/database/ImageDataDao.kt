@@ -14,12 +14,12 @@ interface ImageDataDao {
     suspend fun saveAllImageData(imageDataList: List<ImageData>)
 
     @Query("SELECT * FROM image_data WHERE `query` LIKE :q")
-    fun selectAll(q:String?) : PagingSource<Int,ImageData>
+    fun selectAll(q: String?): PagingSource<Int, ImageData>
 
     @Query("DELETE FROM image_data WHERE `query` = :q")
-    suspend fun deleteImageDataByQuery(q:String)
+    suspend fun deleteImageDataByQuery(q: String)
 
     @Query("SELECT * FROM image_data")
-    fun selectAllData() : List<ImageData>
+    fun selectAllData(): List<ImageData>
 
 }

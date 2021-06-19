@@ -1,9 +1,9 @@
 package com.example.searchimageara.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(),MainActivityDelegate {
+class MainActivity : AppCompatActivity(), MainActivityDelegate {
 
     private val viewModel: SearchImageViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,12 @@ class MainActivity : AppCompatActivity(),MainActivityDelegate {
 
     override fun setupNavDrawer(toolbar: androidx.appcompat.widget.Toolbar) {
         val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 

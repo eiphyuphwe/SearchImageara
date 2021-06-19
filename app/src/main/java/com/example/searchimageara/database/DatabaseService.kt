@@ -9,13 +9,14 @@ import com.example.searchimageara.domain.model.ImageDataKeys
 import javax.inject.Singleton
 
 @Singleton
-@Database(entities = [ImageData::class,ImageDataKeys::class],
+@Database(
+    entities = [ImageData::class, ImageDataKeys::class],
     exportSchema = false,
     version = 1
-    )
+)
 @TypeConverters(DataConverter::class)
 abstract class DatabaseService : RoomDatabase() {
 
-    abstract fun imageDao() : ImageDataDao
-    abstract fun remoteKeyDao() : RemoteKeyDao
+    abstract fun imageDao(): ImageDataDao
+    abstract fun remoteKeyDao(): RemoteKeyDao
 }

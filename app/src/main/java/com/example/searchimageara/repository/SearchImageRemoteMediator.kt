@@ -1,7 +1,10 @@
 package com.example.searchimageara.repository
 
 import android.util.Log
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.searchimageara.database.entity.DatabaseService
 import com.example.searchimageara.domain.model.ImageData
@@ -20,7 +23,7 @@ class SearchImageRemoteMediator @Inject constructor(
     private val query: String,
     private val autoCorrect: Boolean,
     private val networkMapper: ImageDataDtoMapper
-    ) : RemoteMediator<Int, ImageData>() {
+) : RemoteMediator<Int, ImageData>() {
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ImageData>
@@ -31,7 +34,7 @@ class SearchImageRemoteMediator @Inject constructor(
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
-                    Log.e(TAG,"state = ${state.lastItemOrNull()}")
+                    Log.e(TAG, "state = ${state.lastItemOrNull()}")
                     state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
 
@@ -54,35 +57,34 @@ class SearchImageRemoteMediator @Inject constructor(
                 autoCorrect
             )
             val isEndOfList: Boolean
-            if (networkResponse.imageList.size == 0) {
-                isEndOfList = true
-            } else {
-                isEndOfList = false
-            }
-            Log.e(TAG,"NetworkCount Here = ${networkResponse.count} $isEndOfList,== ${networkResponse.imageList.size}")
-            val imageDataDto = networkResponse?.imageList
+            isEndOfList = networkResponse.imageList.size == 0
+            Log.e(
+                TAG,
+                "NetworkCount Here = ${networkResponse.count} $isEndOfList,== ${networkResponse.imageList.size}"
+            )
+            val imageDataDto = networkResponse.imageList
             val imageDataList = networkMapper.toDomainList(imageDataDto, query)
-            Log.e(TAG,"1 Size of imagelist is ${imageDataList.size}")
+            Log.e(TAG, "1 Size of imagelist is ${imageDataList.size}")
             //get data from network
             // Store loaded data, and next key in transaction, so that
             // they're always consistent
 
             databaseService.withTransaction {
-                Log.e(TAG,"2.inside transaction")
+                Log.e(TAG, "2.inside transaction")
                 if (loadType == LoadType.REFRESH) {
-                    Log.e(TAG,"2.inside refresh")
+                    Log.e(TAG, "2.inside refresh")
                     databaseService.remoteKeyDao().deleteByQuery(query)
                     databaseService.imageDao().deleteImageDataByQuery(query)
                 }
             }
 
-            Log.e(TAG,"3")
+            Log.e(TAG, "3")
 
             if (imageDataList != null) {
-                Log.e(TAG,"3.imagelist is not null")
+                Log.e(TAG, "3.imagelist is not null")
 
                 databaseService.withTransaction {
-                    Log.e(TAG,"3.db transaction")
+                    Log.e(TAG, "3.db transaction")
 
                     databaseService.remoteKeyDao()
                         .insertOrReplaceRemoteKeys(
@@ -98,16 +100,16 @@ class SearchImageRemoteMediator @Inject constructor(
                     databaseService.imageDao().saveAllImageData(imageDataList)
                 }
             }
-            Log.e(TAG,"4")
+            Log.e(TAG, "4")
             val totalCountFromNetwork = networkResponse.count
             Log.e(TAG, "networkTotalCount = ${networkResponse.count}")
 
-            var maxPageNumber:Int =0
+            var maxPageNumber: Int = 0
             if (totalCountFromNetwork > 0) {
-                if (totalCountFromNetwork %  NetworkConstants.DEFAULT_PAGE_SIZE != 0) {
-                    maxPageNumber = totalCountFromNetwork /  NetworkConstants.DEFAULT_PAGE_SIZE + 1
+                if (totalCountFromNetwork % NetworkConstants.DEFAULT_PAGE_SIZE != 0) {
+                    maxPageNumber = totalCountFromNetwork / NetworkConstants.DEFAULT_PAGE_SIZE + 1
                 } else {
-                    maxPageNumber = totalCountFromNetwork /  NetworkConstants.DEFAULT_PAGE_SIZE
+                    maxPageNumber = totalCountFromNetwork / NetworkConstants.DEFAULT_PAGE_SIZE
                 }
             }
 

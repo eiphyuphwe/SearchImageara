@@ -13,7 +13,7 @@ interface RemoteKeyDao {
     suspend fun insertOrReplaceRemoteKeys(imageDataKeys: ImageDataKeys)
 
     @Query("SELECT * FROM imageDataKeys WHERE `query` = :query ORDER BY id DESC")
-    suspend fun remoteKeyByQuery(query:String): List<ImageDataKeys>
+    suspend fun remoteKeyByQuery(query: String): List<ImageDataKeys>
 
     @Query("SELECT * FROM imageDataKeys")
     suspend fun selectAllKeys(): List<ImageDataKeys>

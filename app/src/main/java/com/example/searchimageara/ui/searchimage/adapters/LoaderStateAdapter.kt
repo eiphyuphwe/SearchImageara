@@ -39,7 +39,7 @@ class LoaderStateAdapter(private val retry: () -> Unit) :
 
         init {
 
-            view.btnRetry.setOnClickListener{
+            view.btnRetry.setOnClickListener {
                 retry()
             }
         }

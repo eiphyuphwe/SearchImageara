@@ -12,11 +12,13 @@ import dagger.hilt.android.components.ApplicationComponent
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object ReposistoryModule {
+object RepositoryModule {
 
     @Provides
-    fun provideSearchImageRepository(service:SearchImageService,mapper:ImageDataDtoMapper,
-    dbService:DatabaseService) : SearchImageRepository {
-        return SearchImageRepository_Impl(service,mapper,dbService)
+    fun provideSearchImageRepository(
+        service: SearchImageService, mapper: ImageDataDtoMapper,
+        dbService: DatabaseService
+    ): SearchImageRepository {
+        return SearchImageRepository_Impl(service, mapper, dbService)
     }
 }

@@ -14,15 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.searchimageara.R
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.ui.MainActivityDelegate
+import com.example.searchimageara.ui.imagedetail.ImageDetailViewModel
 import com.example.searchimageara.ui.searchimage.adapters.LoaderStateAdapter
 import com.example.searchimageara.ui.searchimage.adapters.SearchImageAdapter
-import com.example.searchimageara.ui.imagedetail.ImageDetailViewModel
 import com.example.searchimageara.util.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_image_search.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.lang.ClassCastException
 
 @AndroidEntryPoint
 class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClickListener {
@@ -61,7 +60,7 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
     }
 
     override fun onItemClick(imageData: ImageData) {
-        imageData?.let {
+        imageData.let {
             findNavController().navigate(
                 R.id.action_searchImageFragment_to_imageDetailDialog2,
                 ImageDetailViewModel.createArguments(imageData)
@@ -70,16 +69,17 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
     }
 
     override fun onUrlCliclk(imageData: ImageData) {
-        imageData?.let {
+        imageData.let {
             findNavController().navigate(
                 R.id.action_searchImageFragment_to_imageDataWebSite,
                 ImageDetailViewModel.createArguments(imageData)
             )
         }
     }
+
     private fun setupViews() {
         //rvImages.adapter = imageAdapter
-        val loaderStateAdapter = LoaderStateAdapter{ imageAdapter.retry() }
+        val loaderStateAdapter = LoaderStateAdapter { imageAdapter.retry() }
         rvImages.adapter = imageAdapter.withLoadStateFooter(loaderStateAdapter)
         tvSearch.setOnEditorActionListener { textView, actionId, _ ->
 
@@ -99,14 +99,15 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
         }
 
     }
+
     private fun hideKeyboard(view: View) {
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun searchImages(q:String) {
+    private fun searchImages(q: String) {
         lifecycleScope.launch {
-            viewModel.search(q,  true)
+            viewModel.search(q, true)
                 .collectLatest { pagingData ->
                     imageAdapter.submitData(pagingData)
                 }

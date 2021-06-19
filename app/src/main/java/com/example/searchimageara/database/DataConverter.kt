@@ -20,7 +20,7 @@ object DataConverter {
 
     @TypeConverter
     @JvmStatic
-    fun convertProviderToJsonString(provider:Provider) :  String? {
+    fun convertProviderToJsonString(provider: Provider): String? {
         val jsonString = gson.toJson(provider)
         return jsonString
     }

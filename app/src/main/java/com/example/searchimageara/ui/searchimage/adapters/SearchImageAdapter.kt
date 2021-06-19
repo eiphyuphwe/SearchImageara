@@ -25,19 +25,19 @@ class SearchImageAdapter :
     }
 
     override fun onBindViewHolder(holder: ImageDataViewHolder, position: Int) {
-         getItem(position)?.let { holder.bindImageData(it) }
+        getItem(position)?.let { holder.bindImageData(it) }
         val item = getItem(position)
-         holder.itemView.ivCover.setOnClickListener{
-             item?.let { it1 -> onSearchImageSearchImageItemClickListener.onItemClick(it1) }
-         }
-        holder.itemView.tvWebPageUrl.setOnClickListener{
+        holder.itemView.ivCover.setOnClickListener {
+            item?.let { it1 -> onSearchImageSearchImageItemClickListener.onItemClick(it1) }
+        }
+        holder.itemView.tvWebPageUrl.setOnClickListener {
             item?.let { it1 -> onSearchImageSearchImageItemClickListener.onUrlCliclk(it1) }
         }
 
 
     }
 
-    fun setOnItemClickListener(listenerSearchImage: OnSearchImageItemClickListener){
+    fun setOnItemClickListener(listenerSearchImage: OnSearchImageItemClickListener) {
         onSearchImageSearchImageItemClickListener = listenerSearchImage
     }
 
@@ -49,17 +49,17 @@ class SearchImageAdapter :
         fun bindImageData(imageData: ImageData) {
             with(imageData) {
                 Glide.with(itemView.context).load(thumbnail)
-                    .transform( CenterCrop(), RoundedCorners(25))
+                    .transform(CenterCrop(), RoundedCorners(25))
                     .into(ivImageCover)
                 tvTitle.text = title
                 tvWebPageUrl.text = webpageUrl
-                tvWebPageUrl.paintFlags =  Paint.UNDERLINE_TEXT_FLAG
+                tvWebPageUrl.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             }
 
         }
     }
 
-    interface OnSearchImageItemClickListener{
+    interface OnSearchImageItemClickListener {
         fun onItemClick(imageData: ImageData)
         fun onUrlCliclk(imageData: ImageData)
     }

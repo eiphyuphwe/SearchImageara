@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun provideApplication(@ApplicationContext app:Context) : SearchImagearaApplication {
+    fun provideApplication(@ApplicationContext app: Context): SearchImagearaApplication {
         return app as SearchImagearaApplication
     }
 

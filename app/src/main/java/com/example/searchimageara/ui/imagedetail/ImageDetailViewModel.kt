@@ -6,9 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.searchimageara.domain.model.ImageData
 
-class ImageDetailViewModel : ViewModel(){
-    private val imageLiveData : MutableLiveData<ImageData> = MutableLiveData<ImageData>()
-    companion object{
+class ImageDetailViewModel : ViewModel() {
+    private val imageLiveData: MutableLiveData<ImageData> = MutableLiveData<ImageData>()
+
+    companion object {
         private const val IMAGE_ARG = "image"
         fun createArguments(imageData: ImageData): Bundle {
             val bundle = Bundle()
@@ -27,7 +28,8 @@ class ImageDetailViewModel : ViewModel(){
             imageLiveData.value = it
         }
     }
-    fun getImageDetailData() : LiveData<ImageData> {
+
+    fun getImageDetailData(): LiveData<ImageData> {
         return imageLiveData
     }
 }

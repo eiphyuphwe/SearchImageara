@@ -18,29 +18,23 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideImageDao(databaseService: DatabaseService) : ImageDataDao {
+    fun provideImageDao(databaseService: DatabaseService): ImageDataDao {
         return databaseService.imageDao()
     }
 
     @Singleton
     @Provides
-    fun provideImageDataKeysDao(databaseService: DatabaseService) : RemoteKeyDao {
+    fun provideImageDataKeysDao(databaseService: DatabaseService): RemoteKeyDao {
         return databaseService.remoteKeyDao()
     }
 
     @Singleton
     @Provides
-    fun provideAppDatabase(@ApplicationContext appContext:Context):DatabaseService{
+    fun provideAppDatabase(@ApplicationContext appContext: Context): DatabaseService {
         return Room.databaseBuilder(
             appContext,
             DatabaseService::class.java,
             "SearchImageara"
         ).build()
     }
-
-    /*@Singleton
-    @Provides
-    fun provideImageDataDtoMapper() : ImageDataEntityMapper {
-        return ImageDataEntityMapper()
-    }*/
 }

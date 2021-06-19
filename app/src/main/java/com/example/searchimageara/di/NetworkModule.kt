@@ -1,7 +1,7 @@
 package com.example.searchimageara.di
 
-import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.NetworkConstants
+import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -18,13 +18,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideImageDataDtoMapper() : ImageDataDtoMapper {
+    fun provideImageDataDtoMapper(): ImageDataDtoMapper {
         return ImageDataDtoMapper()
     }
 
     @Singleton
     @Provides
-    fun provideImageSerachService() : SearchImageService {
+    fun provideImageSerachService(): SearchImageService {
         return Retrofit.Builder()
             .baseUrl(NetworkConstants.BASEURL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))

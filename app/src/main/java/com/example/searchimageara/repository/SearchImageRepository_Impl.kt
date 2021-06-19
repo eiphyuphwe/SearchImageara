@@ -5,8 +5,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.searchimageara.database.entity.DatabaseService
 import com.example.searchimageara.domain.model.ImageData
-import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.NetworkConstants
+import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -28,11 +28,12 @@ constructor(
         return Pager(
             PagingConfig(pageSize = NetworkConstants.DEFAULT_PAGE_SIZE, enablePlaceholders = false),
             remoteMediator = SearchImageRemoteMediator(
-                    networkService = imageService,
-                    databaseService = databaseService,
-                    query = query,
-                    autoCorrect = autoCorrect,
-                    networkMapper = networkMapper),
+                networkService = imageService,
+                databaseService = databaseService,
+                query = query,
+                autoCorrect = autoCorrect,
+                networkMapper = networkMapper
+            ),
             pagingSourceFactory = {
                 databaseService.imageDao().selectAll(query)
             }

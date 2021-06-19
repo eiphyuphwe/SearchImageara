@@ -35,7 +35,7 @@ class ImageDetailDialogFragment : DialogFragment() {
                 it.height?.let { it2 ->
                     Glide.with(view.context)
                         .load(it.url)
-                        .transform( CenterCrop())
+                        .transform(CenterCrop())
                         .override(it1, it2)
                         .into(view.imgDetail)
                 }

@@ -28,7 +28,7 @@ data class ImageDataDto(
     val imageWebSearchUrl: String? = null,
     @SerializedName("webpageUrl")
     val webpageUrl: String? = null
-) {}
+)
 
 data class ProviderDto(
     @SerializedName("name")

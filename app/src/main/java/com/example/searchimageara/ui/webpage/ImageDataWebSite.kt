@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_imagedata_website.*
 
 @AndroidEntryPoint
-class ImageDataWebSite : Fragment(){
+class ImageDataWebSite : Fragment() {
 
     private val viewModel: ImageDataWebSiteViewModel by viewModels()
     private lateinit var mainActivityDelegate: MainActivityDelegate
@@ -24,7 +24,7 @@ class ImageDataWebSite : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_imagedata_website, container, false)
+        val view = inflater.inflate(R.layout.fragment_imagedata_website, container, false)
         viewModel.loadArguments(arguments)
         return view
     }
@@ -45,7 +45,6 @@ class ImageDataWebSite : Fragment(){
 
         })
     }
-
 
 
 }
