@@ -33,7 +33,7 @@ class ImageDataDtoListFactory {
         return (pageNumber*pageSize)
     }
 
-    fun generateData(
+    private fun generateData(
             query: String,
             count: Int
     ): List<ImageDataDto> {

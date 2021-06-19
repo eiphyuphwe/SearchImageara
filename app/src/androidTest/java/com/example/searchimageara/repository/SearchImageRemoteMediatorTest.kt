@@ -37,12 +37,9 @@ class SearchImageRemoteMediatorTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    val context = InstrumentationRegistry.getInstrumentation().targetContext
-
     @Inject
     @Named("test_db")
     lateinit var database: DatabaseService
-    lateinit var remoteKeyDao: RemoteKeyDao
     lateinit var searchImageRepo: SearchImageRepository
     lateinit var networkService:MockSearchImageService
     @Inject

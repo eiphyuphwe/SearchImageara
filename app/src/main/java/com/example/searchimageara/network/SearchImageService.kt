@@ -10,7 +10,7 @@ interface SearchImageService {
     suspend fun searchImages(
         @Header("x-rapidapi-key") apiKey: String,
         @Header("x-rapidapi-host") host: String,
-        @Query("q") q: String,
+        @Query("q") query: String,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
         @Query("autoCorrect") autoCorrect: Boolean

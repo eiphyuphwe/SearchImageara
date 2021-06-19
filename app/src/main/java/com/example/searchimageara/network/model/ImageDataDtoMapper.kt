@@ -6,7 +6,7 @@ import com.example.searchimageara.domain.model.Provider
 import com.example.searchimageara.domain.utility.DomainMapper
 
 class ImageDataDtoMapper : DomainMapper<ImageDataDto, ImageData> {
-    val providerDtoMapper = ProviderDtoMapper()
+    private val providerDtoMapper = ProviderDtoMapper()
     override fun mapToDomainModel(model: ImageDataDto, query: String): ImageData {
 
         return ImageData(

@@ -1,7 +1,6 @@
 package com.example.searchimageara.ui
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -9,7 +8,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.searchimageara.R
-import com.example.searchimageara.ui.searchimage.SearchImageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -17,12 +15,10 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MainActivityDelegate {
 
-    private val viewModel: SearchImageViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_SearchImageara)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         val inflater = navHostFragment.findNavController().navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
@@ -56,9 +52,7 @@ class MainActivity : AppCompatActivity(), MainActivityDelegate {
         drawerLayout.navView.setupWithNavController(navHostFragment.findNavController())
 
     }
-
     override fun enableNavDrawer(enable: Boolean) {
         drawerLayout.isEnabled = enable
     }
-
 }

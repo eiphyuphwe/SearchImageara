@@ -2,9 +2,7 @@ package com.example.searchimageara.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.searchimageara.database.RemoteKeyDao
 import com.example.searchimageara.database.DatabaseService
-import com.example.searchimageara.database.ImageDataDao
 import com.example.searchimageara.network.NetworkConstants
 import com.example.searchimageara.network.SearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper
@@ -18,7 +16,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.Executors
 import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -44,7 +41,7 @@ object TestAppModule {
     @Named("test_network")
     fun provideImageSerachService() : SearchImageService {
         return Retrofit.Builder()
-            .baseUrl(NetworkConstants.BASEURL)
+            .baseUrl(NetworkConstants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(SearchImageService::class.java)

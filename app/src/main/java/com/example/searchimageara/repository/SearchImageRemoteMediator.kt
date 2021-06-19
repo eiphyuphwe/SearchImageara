@@ -29,12 +29,10 @@ class SearchImageRemoteMediator @Inject constructor(
         state: PagingState<Int, ImageData>
     ): MediatorResult {
         return try {
-            Log.e(TAG, "Start of Load:${loadType.name}")
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
-                    Log.e(TAG, "state = ${state.lastItemOrNull()}")
                     state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
 
@@ -42,11 +40,8 @@ class SearchImageRemoteMediator @Inject constructor(
                     keys
                 }
             }
-            var pageNumber = 0
-            pageNumber = loadKey?.pageNumber?.plus(1)
-                ?: 1 //page number is 1 0r latest page//page number is 1 0r lastest page
-            Log.e(TAG, "pageNumber = $pageNumber")
-
+            val pageNumber = loadKey?.pageNumber?.plus(1)
+                ?: 1 //page number is 1 0r latest page//page number is 1 0r latest page
 
             val networkResponse = networkService.searchImages(
                 NetworkConstants.API_VALUE,
@@ -56,36 +51,26 @@ class SearchImageRemoteMediator @Inject constructor(
                 NetworkConstants.DEFAULT_PAGE_SIZE,
                 autoCorrect
             )
-            val isEndOfList: Boolean
-            isEndOfList = networkResponse.imageList.size == 0
+            val isEndOfList: Boolean = networkResponse.imageList.isEmpty()
             Log.e(
                 TAG,
                 "NetworkCount Here = ${networkResponse.count} $isEndOfList,== ${networkResponse.imageList.size}"
             )
             val imageDataDto = networkResponse.imageList
             val imageDataList = networkMapper.toDomainList(imageDataDto, query)
-            Log.e(TAG, "1 Size of imagelist is ${imageDataList.size}")
             //get data from network
             // Store loaded data, and next key in transaction, so that
             // they're always consistent
 
             databaseService.withTransaction {
-                Log.e(TAG, "2.inside transaction")
                 if (loadType == LoadType.REFRESH) {
-                    Log.e(TAG, "2.inside refresh")
                     databaseService.remoteKeyDao().deleteByQuery(query)
                     databaseService.imageDao().deleteImageDataByQuery(query)
                 }
             }
 
-            Log.e(TAG, "3")
-
-            if (imageDataList != null) {
-                Log.e(TAG, "3.imagelist is not null")
-
+            if (imageDataList.isNotEmpty()) {
                 databaseService.withTransaction {
-                    Log.e(TAG, "3.db transaction")
-
                     databaseService.remoteKeyDao()
                         .insertOrReplaceRemoteKeys(
                             ImageDataKeys(
@@ -100,22 +85,6 @@ class SearchImageRemoteMediator @Inject constructor(
                     databaseService.imageDao().saveAllImageData(imageDataList)
                 }
             }
-            Log.e(TAG, "4")
-            val totalCountFromNetwork = networkResponse.count
-            Log.e(TAG, "networkTotalCount = ${networkResponse.count}")
-
-            var maxPageNumber: Int = 0
-            if (totalCountFromNetwork > 0) {
-                if (totalCountFromNetwork % NetworkConstants.DEFAULT_PAGE_SIZE != 0) {
-                    maxPageNumber = totalCountFromNetwork / NetworkConstants.DEFAULT_PAGE_SIZE + 1
-                } else {
-                    maxPageNumber = totalCountFromNetwork / NetworkConstants.DEFAULT_PAGE_SIZE
-                }
-            }
-
-            Log.e(TAG, " \"PageNumber 222\" $pageNumber")
-            Log.e(TAG, "Max Page Number = $maxPageNumber")
-            Log.e(TAG, "isEndofList = $isEndOfList")
 
             return MediatorResult.Success(endOfPaginationReached = isEndOfList)
 
@@ -132,6 +101,6 @@ class SearchImageRemoteMediator @Inject constructor(
     }
 
     companion object {
-        val TAG = "Search"
+        val TAG = SearchImageRemoteMediator::class.simpleName
     }
 }

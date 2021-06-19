@@ -22,7 +22,6 @@ class ImageDataWebSiteViewModel : ViewModel() {
         if (arguments == null) {
             return
         }
-
         val image: ImageData? = arguments.get(IMAGE_ARG) as ImageData?
         image?.let {
             imageLiveData.value = it

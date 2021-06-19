@@ -17,6 +17,7 @@ import com.example.searchimageara.ui.MainActivityDelegate
 import com.example.searchimageara.ui.imagedetail.ImageDetailViewModel
 import com.example.searchimageara.ui.searchimage.adapters.LoaderStateAdapter
 import com.example.searchimageara.ui.searchimage.adapters.SearchImageAdapter
+import com.example.searchimageara.ui.webpage.ImageDataWebSiteViewModel
 import com.example.searchimageara.util.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_image_search.*
@@ -46,6 +47,7 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
         return inflater.inflate(R.layout.fragment_image_search, container, false)
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initToolbar(toolbar = toolbar, R.string.image_search, false)
@@ -68,11 +70,11 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
         }
     }
 
-    override fun onUrlCliclk(imageData: ImageData) {
+    override fun onUrlClick(imageData: ImageData) {
         imageData.let {
             findNavController().navigate(
                 R.id.action_searchImageFragment_to_imageDataWebSite,
-                ImageDetailViewModel.createArguments(imageData)
+                ImageDataWebSiteViewModel.createArguments(imageData)
             )
         }
     }

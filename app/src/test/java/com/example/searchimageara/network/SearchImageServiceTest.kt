@@ -22,7 +22,7 @@ class SearchImageServiceTest {
     fun setUp() {
         mockWebServer.start()
          networkService = Retrofit.Builder()
-            .baseUrl(NetworkConstants.BASEURL)
+            .baseUrl(NetworkConstants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(SearchImageService::class.java)

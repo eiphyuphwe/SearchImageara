@@ -9,7 +9,6 @@ import java.io.Serializable
 @Entity(tableName = "image_data")
 data class ImageData(
 
-    // @PrimaryKey(autoGenerate = true) val id: Int,
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "url")
