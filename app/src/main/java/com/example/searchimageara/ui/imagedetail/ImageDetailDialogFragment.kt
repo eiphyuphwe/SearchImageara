@@ -36,6 +36,8 @@ class ImageDetailDialogFragment : DialogFragment() {
                         .load(it.url)
                         .transform(CenterCrop())
                         .override(it.width, it.height)
+                        .error(R.drawable.error_image)
+                        .placeholder(R.drawable.image_cover_missing)
                         .into(view.imgDetail)
                 }
             }
