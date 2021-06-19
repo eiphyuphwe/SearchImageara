@@ -16,18 +16,17 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class SearchImageRemoteMediator @Inject constructor(
     private val networkService: SearchImageService,
-    private val networkMapper: ImageDataDtoMapper,
     private val databaseService: DatabaseService,
     private val query: String,
-    private val autoCorrect: Boolean
-
-) : RemoteMediator<Int, ImageData>() {
+    private val autoCorrect: Boolean,
+    private val networkMapper: ImageDataDtoMapper
+    ) : RemoteMediator<Int, ImageData>() {
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ImageData>
     ): MediatorResult {
         return try {
-            Log.e("TAG", "Start of Load:${loadType.name}")
+            Log.e(TAG, "Start of Load:${loadType.name}")
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
@@ -63,19 +62,28 @@ class SearchImageRemoteMediator @Inject constructor(
             Log.e(TAG,"NetworkCount Here = ${networkResponse.count} $isEndOfList,== ${networkResponse.imageList.size}")
             val imageDataDto = networkResponse?.imageList
             val imageDataList = networkMapper.toDomainList(imageDataDto, query)
-
+            Log.e(TAG,"1 Size of imagelist is ${imageDataList.size}")
             //get data from network
             // Store loaded data, and next key in transaction, so that
             // they're always consistent
+
             databaseService.withTransaction {
+                Log.e(TAG,"2.inside transaction")
                 if (loadType == LoadType.REFRESH) {
+                    Log.e(TAG,"2.inside refresh")
                     databaseService.remoteKeyDao().deleteByQuery(query)
                     databaseService.imageDao().deleteImageDataByQuery(query)
                 }
             }
 
+            Log.e(TAG,"3")
+
             if (imageDataList != null) {
+                Log.e(TAG,"3.imagelist is not null")
+
                 databaseService.withTransaction {
+                    Log.e(TAG,"3.db transaction")
+
                     databaseService.remoteKeyDao()
                         .insertOrReplaceRemoteKeys(
                             ImageDataKeys(
@@ -90,6 +98,7 @@ class SearchImageRemoteMediator @Inject constructor(
                     databaseService.imageDao().saveAllImageData(imageDataList)
                 }
             }
+            Log.e(TAG,"4")
             val totalCountFromNetwork = networkResponse.count
             Log.e(TAG, "networkTotalCount = ${networkResponse.count}")
 
