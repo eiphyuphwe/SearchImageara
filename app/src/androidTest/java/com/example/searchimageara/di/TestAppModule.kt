@@ -41,19 +41,6 @@ object TestAppModule {
     }
 
     @Provides
-    @Named("test_imagedao")
-    fun provideImageDao(databaseService: DatabaseService) : ImageDataDao {
-        return databaseService.imageDao()
-    }
-
-
-    @Provides
-    @Named("test_remotekeydao")
-    fun provideImageDataKeysDao(databaseService: DatabaseService) : RemoteKeyDao {
-        return databaseService.remoteKeyDao()
-    }
-
-    @Provides
     @Named("test_network")
     fun provideImageSerachService() : SearchImageService {
         return Retrofit.Builder()
