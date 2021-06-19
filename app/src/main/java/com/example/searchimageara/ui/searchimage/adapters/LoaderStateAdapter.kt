@@ -1,4 +1,4 @@
-package com.example.searchimageara.presentation.searchimage
+package com.example.searchimageara.ui.searchimage.adapters
 
 import android.view.LayoutInflater
 import android.view.View

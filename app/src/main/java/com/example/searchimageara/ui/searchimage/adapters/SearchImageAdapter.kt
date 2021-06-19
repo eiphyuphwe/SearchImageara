@@ -1,13 +1,11 @@
-package com.example.searchimageara.presentation.searchimage
+package com.example.searchimageara.ui.searchimage.adapters
 
 import android.graphics.Paint
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -39,7 +37,7 @@ class SearchImageAdapter :
 
     }
 
-    fun setOnItemClickListener(listenerSearchImage:OnSearchImageItemClickListener){
+    fun setOnItemClickListener(listenerSearchImage: OnSearchImageItemClickListener){
         onSearchImageSearchImageItemClickListener = listenerSearchImage
     }
 

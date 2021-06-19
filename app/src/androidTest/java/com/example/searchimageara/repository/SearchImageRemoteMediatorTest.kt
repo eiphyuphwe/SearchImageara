@@ -1,4 +1,4 @@
-package com.example.searchimageara.reposistory
+package com.example.searchimageara.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.*
@@ -7,7 +7,6 @@ import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.searchimageara.database.RemoteKeyDao
 import com.example.searchimageara.database.entity.DatabaseService
-import com.example.searchimageara.database.entity.ImageDataDao
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.network.MockSearchImageService
 import com.example.searchimageara.network.model.ImageDataDtoMapper
@@ -44,7 +43,7 @@ class SearchImageRemoteMediatorTest {
     @Named("test_db")
     lateinit var database: DatabaseService
     lateinit var remoteKeyDao: RemoteKeyDao
-    lateinit var searchImageRepo: SearchImageReposistory
+    lateinit var searchImageRepo: SearchImageRepository
     lateinit var networkService:MockSearchImageService
     @Inject
     @Named("test_mapper")
@@ -54,7 +53,7 @@ class SearchImageRemoteMediatorTest {
     fun setup() {
         hiltRule.inject()
         networkService = MockSearchImageService()
-        searchImageRepo = SerachImageReposistory_Impl(networkService, dtoMapper, database)
+        searchImageRepo = SearchImageRepository_Impl(networkService, dtoMapper, database)
     }
 
     @After

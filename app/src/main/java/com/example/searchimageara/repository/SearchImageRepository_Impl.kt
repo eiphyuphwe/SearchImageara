@@ -1,6 +1,5 @@
-package com.example.searchimageara.reposistory
+package com.example.searchimageara.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -14,13 +13,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SerachImageReposistory_Impl
+class SearchImageRepository_Impl
 @Inject
 constructor(
     private val imageService: SearchImageService,
     private val networkMapper: ImageDataDtoMapper,
     private val databaseService: DatabaseService,
-) : SearchImageReposistory {
+) : SearchImageRepository {
 
     override suspend fun search(
         query: String,

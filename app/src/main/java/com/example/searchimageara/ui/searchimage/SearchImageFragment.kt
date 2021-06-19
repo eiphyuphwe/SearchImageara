@@ -1,4 +1,4 @@
-package com.example.searchimageara.presentation.searchimage
+package com.example.searchimageara.ui.searchimage
 
 import android.content.Context
 import android.os.Bundle
@@ -13,8 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.searchimageara.R
 import com.example.searchimageara.domain.model.ImageData
-import com.example.searchimageara.presentation.MainActivityDelegate
-import com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailViewModel
+import com.example.searchimageara.ui.MainActivityDelegate
+import com.example.searchimageara.ui.searchimage.adapters.LoaderStateAdapter
+import com.example.searchimageara.ui.searchimage.adapters.SearchImageAdapter
+import com.example.searchimageara.ui.imagedetail.ImageDetailViewModel
 import com.example.searchimageara.util.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_image_search.*
@@ -23,7 +25,7 @@ import kotlinx.coroutines.launch
 import java.lang.ClassCastException
 
 @AndroidEntryPoint
-class SearchImageFragment : Fragment(),SearchImageAdapter.OnSearchImageItemClickListener {
+class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClickListener {
 
     private val viewModel: SearchImageViewModel by viewModels()
     private lateinit var mainActivityDelegate: MainActivityDelegate

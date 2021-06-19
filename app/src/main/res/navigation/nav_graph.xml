@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchImageFragment"
-        android:name="com.example.searchimageara.presentation.searchimage.SearchImageFragment"
+        android:name="com.example.searchimageara.ui.searchimage.SearchImageFragment"
         android:label="fragment_image_search"
         tools:layout="@layout/fragment_image_search" >
 
@@ -20,11 +20,11 @@
     </fragment>
     <dialog
         android:id="@+id/imageDetailDialog2"
-        android:name="com.example.searchimageara.presentation.imagedetial_dialog.ImageDetailDialogFragment"
+        android:name="com.example.searchimageara.ui.imagedetail.ImageDetailDialogFragment"
         android:label="ImageDetailDialog" />
     <fragment
         android:id="@+id/imageDataWebSite"
-        android:name="com.example.searchimageara.presentation.webpage.ImageDataWebSite"
+        android:name="com.example.searchimageara.ui.webpage.ImageDataWebSite"
         android:label="ImageDataWebSite" />
 
 </navigation>

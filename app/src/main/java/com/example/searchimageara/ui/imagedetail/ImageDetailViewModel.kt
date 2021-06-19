@@ -1,4 +1,4 @@
-package com.example.searchimageara.presentation.webpage
+package com.example.searchimageara.ui.imagedetail
 
 import android.os.Bundle
 import androidx.lifecycle.LiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.searchimageara.domain.model.ImageData
 
-class ImageDataWebSiteViewModel : ViewModel(){
+class ImageDetailViewModel : ViewModel(){
     private val imageLiveData : MutableLiveData<ImageData> = MutableLiveData<ImageData>()
     companion object{
         private const val IMAGE_ARG = "image"

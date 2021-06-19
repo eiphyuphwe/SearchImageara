@@ -1,30 +1,27 @@
-package com.example.searchimageara.presentation.searchimage
+package com.example.searchimageara.ui.searchimage
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.searchimageara.domain.model.ImageData
-import com.example.searchimageara.reposistory.SearchImageReposistory
+import com.example.searchimageara.repository.SearchImageRepository
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class SearchImageViewModel
 @ViewModelInject
 constructor(
-    private val searchImageReposistory: SearchImageReposistory
+    private val searchImageRepository: SearchImageRepository
 ) : ViewModel() {
     private var imageDataLists: MutableLiveData<List<ImageData>> =
         MutableLiveData<List<ImageData>>()
 
     suspend fun search(q: String, autoCorrect: Boolean) : Flow<PagingData<ImageData>>{
 
-           return searchImageReposistory.search(
+           return searchImageRepository.search(
                 query = q,
                 autoCorrect = autoCorrect
             ).cachedIn(viewModelScope)

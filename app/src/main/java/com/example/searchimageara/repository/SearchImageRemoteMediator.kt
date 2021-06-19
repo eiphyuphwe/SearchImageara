@@ -1,4 +1,4 @@
-package com.example.searchimageara.reposistory
+package com.example.searchimageara.repository
 
 import android.util.Log
 import androidx.paging.*

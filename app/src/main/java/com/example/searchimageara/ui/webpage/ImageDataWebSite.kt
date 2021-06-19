@@ -1,4 +1,4 @@
-package com.example.searchimageara.presentation.webpage
+package com.example.searchimageara.ui.webpage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.searchimageara.R
-import com.example.searchimageara.presentation.MainActivityDelegate
+import com.example.searchimageara.ui.MainActivityDelegate
 import com.example.searchimageara.util.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_imagedata_website.*

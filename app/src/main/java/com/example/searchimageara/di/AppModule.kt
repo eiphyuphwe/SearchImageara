@@ -1,7 +1,7 @@
 package com.example.searchimageara.di
 
 import android.content.Context
-import com.example.searchimageara.presentation.SearchImagearaApplication
+import com.example.searchimageara.SearchImagearaApplication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

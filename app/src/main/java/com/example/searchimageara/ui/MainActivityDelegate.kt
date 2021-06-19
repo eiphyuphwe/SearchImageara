@@ -28,7 +28,7 @@
  * THE SOFTWARE.
  */
 
-package com.example.searchimageara.presentation
+package com.example.searchimageara.ui
 
 
 
