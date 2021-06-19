@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.example.searchimageara.R
 import com.example.searchimageara.domain.model.ImageData
 import com.example.searchimageara.ui.MainActivityDelegate
@@ -81,8 +82,10 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
 
     private fun setupViews() {
         //rvImages.adapter = imageAdapter
-        val loaderStateAdapter = LoaderStateAdapter { imageAdapter.retry() }
-        rvImages.adapter = imageAdapter.withLoadStateFooter(loaderStateAdapter)
+        val loaderStateAdapter = LoaderStateAdapter {
+            imageAdapter.retry()
+        }
+        rvImages.adapter = imageAdapter.withLoadStateFooter(footer = loaderStateAdapter)
         tvSearch.setOnEditorActionListener { textView, actionId, _ ->
 
             when (actionId) {
@@ -108,6 +111,7 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
     }
 
     private fun searchImages(q: String) {
+
         lifecycleScope.launch {
             viewModel.search(q, true)
                 .collectLatest { pagingData ->
@@ -115,6 +119,16 @@ class SearchImageFragment : Fragment(), SearchImageAdapter.OnSearchImageItemClic
                 }
 
 
+        }
+
+         lifecycleScope.launch {
+            imageAdapter.loadStateFlow.collectLatest { loadStates ->
+               if(loadStates.refresh is LoadState.Loading){
+                   progressBar?.visibility = View.VISIBLE
+               }else{
+                   progressBar?.visibility = View.GONE
+               }
+            }
         }
     }
 }
