@@ -8,7 +8,7 @@
 - `Coroutines`
 - `LiveData`
 - `RemoteMediator`
-- `Unit Testing` for `Room database`, `Network Service` and `Pager` using 'MockWebServer`,`Hilt` dependency injection
+- `Unit Testing` for `Room database`, `Network Service` and `Pager` using 'MockWebServer,`Hilt` dependency injection
 
 
 
