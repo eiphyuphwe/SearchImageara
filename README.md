@@ -1,5 +1,5 @@
-# SearchImageara
- This application is helping you to serach plenty of images with good quality.
+# SearchImage Application
+ This application is helping you to search plenty of images with good quality.
  
 - Searching the images with infinite scroll using MVVM 
 - `Room` database
